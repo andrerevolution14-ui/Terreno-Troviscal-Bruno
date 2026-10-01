@@ -14,7 +14,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 w-full bg-[#0d382c]/95 backdrop-blur-md border-b border-[#dfb15b]/20 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-8 h-14 sm:h-16 flex items-center justify-between">
         
-        {/* Brand */}
+        {/* Brand com Preço Destacado */}
         <div className="flex items-center gap-2.5">
           <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#10b981] to-[#0f4c3a] border border-[#dfb15b]/40 flex items-center justify-center text-white font-bold text-xs shadow-sm">
             T
@@ -23,13 +23,13 @@ export default function Navbar() {
             <span className="text-sm sm:text-base font-bold tracking-tight text-white block leading-none">
               Terreno Troviscal
             </span>
-            <span className="text-[9px] tracking-wider uppercase text-[#dfb15b] font-medium block mt-0.5">
-              Oliveira do Bairro
+            <span className="text-[9px] tracking-wider uppercase text-[#dfb15b] font-bold block mt-0.5">
+              Oliveira do Bairro • 50.000 €
             </span>
           </div>
         </div>
 
-        {/* CTA "Quero ser contactado" — Tamanho reduzido conforme solicitado */}
+        {/* CTA "Quero ser contactado" — Tamanho reduzido e elegante */}
         <div>
           <button
             onClick={scrollToForm}

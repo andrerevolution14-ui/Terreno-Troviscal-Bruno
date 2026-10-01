@@ -36,22 +36,25 @@ export default function HeroSection() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         
-        {/* Scarcity & Tax Benefit Badges */}
+        {/* Scarcity & Price Badges */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-4 text-center">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-black bg-[#dfb15b] text-[#072218] shadow-md">
+            50.000 € • NEGOCIÁVEL
+          </span>
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-[#dfb15b]/20 text-[#edd085] border border-[#dfb15b]/40 shadow-sm">
             <Flame className="h-3.5 w-3.5 text-[#dfb15b]" />
             7 visitas realizadas este mês
           </span>
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
             <Percent className="h-3.5 w-3.5 text-emerald-300" />
-            IVA a 6% para construção de habitação própria
+            IVA a 6% para habitação própria
           </span>
         </div>
 
         {/* Clean, Punchy Headline */}
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
-            1.474,50 m² com 38 Metros de Frente no Troviscal
+            1.474,50 m² com 38 Metros de Frente por 50.000 €
           </h1>
           
           <div className="mt-3 flex flex-wrap items-center justify-center gap-y-1.5 gap-x-3 text-xs sm:text-sm font-semibold text-[#a7f3d0]">
@@ -63,34 +66,41 @@ export default function HeroSection() {
           </div>
 
           <p className="mt-2 text-xs sm:text-sm text-slate-200 max-w-2xl mx-auto font-light">
-            Terreno 100% plano em área urbana consolidada. Ideal para a sua moradia familiar com piscina ou empreendimento de 3 a 4 moradias.
+            Terreno 100% plano em área urbana consolidada no Troviscal. Oportunidade por 50.000 € para moradia familiar com piscina ou 3 a 4 moradias.
           </p>
         </div>
 
-        {/* Cartões do Pré-Scroll em Branco com Alto Contraste e Vida */}
+        {/* Cartões do Pré-Scroll em Branco com Preço em Forte Destaque e Negrito */}
         <div className="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 max-w-4xl mx-auto">
           <div className="p-3.5 sm:p-4 rounded-2xl bg-white text-[#0d382c] border border-white/90 text-center shadow-lg transform hover:-translate-y-0.5 transition-transform duration-200">
             <div className="text-[10px] uppercase tracking-wider text-[#0f4c3a] font-bold">Área Total</div>
             <div className="text-lg sm:text-2xl font-black text-[#0d382c] mt-0.5">1.474,50 m²</div>
-            <span className="text-[10px] text-emerald-700 font-medium block mt-0.5">Espaço Amplo</span>
+            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Espaço Amplo</span>
           </div>
 
           <div className="p-3.5 sm:p-4 rounded-2xl bg-white text-[#0d382c] border border-white/90 text-center shadow-lg transform hover:-translate-y-0.5 transition-transform duration-200">
             <div className="text-[10px] uppercase tracking-wider text-[#0f4c3a] font-bold">Frente Urbana</div>
             <div className="text-lg sm:text-2xl font-black text-[#0d382c] mt-0.5">38 Metros</div>
-            <span className="text-[10px] text-emerald-700 font-medium block mt-0.5">Acesso Independente</span>
+            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Acesso Independente</span>
           </div>
 
           <div className="p-3.5 sm:p-4 rounded-2xl bg-white text-[#0d382c] border border-white/90 text-center shadow-lg transform hover:-translate-y-0.5 transition-transform duration-200">
             <div className="text-[10px] uppercase tracking-wider text-[#0f4c3a] font-bold">Topografia</div>
             <div className="text-lg sm:text-2xl font-black text-[#0d382c] mt-0.5">100% Plano</div>
-            <span className="text-[10px] text-emerald-700 font-medium block mt-0.5">Zero Muros de Suporte</span>
+            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Zero Muros de Suporte</span>
           </div>
 
-          <div className="p-3.5 sm:p-4 rounded-2xl bg-white text-[#0d382c] border border-emerald-400/40 text-center shadow-lg transform hover:-translate-y-0.5 transition-transform duration-200">
-            <div className="text-[10px] uppercase tracking-wider text-[#0f4c3a] font-bold">Preço de Venda</div>
-            <div className="text-lg sm:text-2xl font-black text-[#0d382c] mt-0.5">50.000 €</div>
-            <span className="text-[10px] text-[#b8860b] font-bold uppercase tracking-wider block mt-0.5">Negociável</span>
+          {/* Cartão de Preço com Destaque BOLD Máximo */}
+          <div className="p-3.5 sm:p-4 rounded-2xl bg-white text-[#0d382c] border-2 border-[#dfb15b] text-center shadow-xl transform hover:-translate-y-0.5 transition-transform duration-200 ring-2 ring-[#dfb15b]/20">
+            <div className="text-[10px] uppercase tracking-wider text-[#072218] font-extrabold bg-[#dfb15b]/25 rounded-md py-0.5 inline-block px-2">
+              Preço de Venda
+            </div>
+            <div className="text-xl sm:text-3xl font-black text-[#072218] mt-1 tracking-tight">
+              50.000 €
+            </div>
+            <span className="text-[11px] text-[#0f4c3a] font-black uppercase tracking-wider block mt-0.5">
+              Negociável
+            </span>
           </div>
         </div>
 
@@ -129,7 +139,7 @@ export default function HeroSection() {
             {/* Modal Controls */}
             <div className="p-3 sm:p-4 bg-[#0d382c] border-b border-[#dfb15b]/20 flex items-center justify-between z-10">
               <span className="text-xs sm:text-sm font-bold text-white">
-                Vista Principal do Terreno • Troviscal
+                Vista Principal do Terreno • 50.000 € (Negociável)
               </span>
 
               <div className="flex items-center gap-2">

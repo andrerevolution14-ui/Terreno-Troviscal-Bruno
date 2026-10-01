@@ -48,16 +48,16 @@ export default function LeadForm() {
     <section id="formulario" className="py-12 sm:py-16 bg-[#f8faf8] text-[#0d382c] border-b border-[#e2ece6]">
       <div className="max-w-xl mx-auto px-4 sm:px-6">
         
-        {/* Header */}
+        {/* Header com Destaque de Preço 50.000€ */}
         <div className="text-center mb-8">
           <span className="text-[11px] uppercase tracking-wider text-[#0f4c3a] font-bold block mb-1">
-            Contacto Direto
+            Contacto Direto • 50.000 € (Negociável)
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0d382c] tracking-tight">
             Quero ser contactado
           </h2>
           <p className="mt-1.5 text-xs sm:text-sm text-[#0d382c]/80">
-            Deixe os seus dados para receber todas as informações e agendar a visita.
+            Deixe os seus dados para receber todos os detalhes do terreno de 1.474,50 m² e agendar visita.
           </p>
         </div>
 

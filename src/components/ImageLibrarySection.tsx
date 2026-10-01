@@ -9,53 +9,40 @@ import {
   ChevronRight, 
   ZoomIn, 
   ZoomOut, 
-  RotateCcw,
-  Sparkles
+  RotateCcw
 } from 'lucide-react';
 
 interface LibraryPhoto {
   id: number;
   src: string;
-  title: string;
-  tag: string;
-  desc: string;
+  alt: string;
 }
 
 const photos: LibraryPhoto[] = [
   {
     id: 1,
     src: '/images/tras.png',
-    title: 'Vista Ampla do Terreno & Relvado',
-    tag: 'Foto 01 • Amplitude Total',
-    desc: 'Perspectiva soalheira a partir do fundo do lote, evidenciando a cota plana, relvado cuidado e excelente exposição solar.'
+    alt: 'Vista soalheira do terreno com relvado amplo'
   },
   {
     id: 2,
     src: '/images/frente.png',
-    title: 'Frente Urbana com 38 Metros',
-    tag: 'Foto 02 • Acesso Principal',
-    desc: 'Vista frontal contínua de 38 metros ao longo da estrada pavimentada com eletricidade e iluminação pública.'
+    alt: 'Frente urbana de 38 metros ao longo da via asfaltada'
   },
   {
     id: 3,
     src: '/images/frente-direita.png',
-    title: 'Perspectiva Angular & Topografia',
-    tag: 'Foto 03 • Entrada Nivelada',
-    desc: 'Cota de entrada suave e nivelada em relação à via, eliminando necessidades de rampas ou aterros complexos.'
+    alt: 'Perspectiva angular da entrada e topografia plana'
   },
   {
     id: 4,
     src: '/images/lado-direita.png',
-    title: 'Envolvente Residencial Consolidada',
-    tag: 'Foto 04 • Vizinhança',
-    desc: 'Área edificada calma e cuidada, com moradias unifamiliares modernas integradas em ambiente campestre e seguro.'
+    alt: 'Envolvente residencial consolidada e cota direta'
   },
   {
     id: 5,
     src: '/images/tras-direita.png',
-    title: 'Extrema Posterior & Arvoredo',
-    tag: 'Foto 05 • Privacidade Natural',
-    desc: 'Resguardo posterior protegido por árvores autóctones, garantindo ar puro e privacidade total.'
+    alt: 'Extrema posterior com arvoredo e privacidade'
   }
 ];
 
@@ -106,7 +93,6 @@ export default function ImageLibrarySection() {
     setScale(1);
   };
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!selectedPhoto) return;
@@ -125,17 +111,17 @@ export default function ImageLibrarySection() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
           <span className="text-[11px] uppercase tracking-wider text-[#dfb15b] font-bold block mb-1">
-            Galeria Fotográfica Oficial
+            Galeria Fotográfica • 50.000 € (Negociável)
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
             Explore o Terreno em Alta Resolução
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-emerald-100 max-w-xl mx-auto font-light">
-            Clique em qualquer imagem para abrir em ecrã inteiro com zoom interativo e navegação entre todos os ângulos.
+            Clique em qualquer imagem para abrir em ecrã inteiro com zoom interativo e navegação entre os ângulos.
           </p>
         </div>
 
-        {/* Aesthetic Sequential Photo Grid */}
+        {/* Aesthetic Sequential Photo Grid — SEM TEXTO NENHUM EM CIMA DAS FOTOS */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
           {photos.map((item, index) => (
             <div
@@ -145,28 +131,17 @@ export default function ImageLibrarySection() {
                 index === 0 ? 'col-span-2 md:col-span-2 aspect-[16/9]' : 'aspect-[4/3] sm:aspect-[16/10]'
               }`}
             >
+              {/* Foto 100% limpa, sem qualquer texto por cima */}
               <Image
                 src={item.src}
-                alt={item.title}
+                alt={item.alt}
                 fill
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
               />
 
-              {/* Tag pill */}
-              <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/65 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-[#dfb15b] border border-[#dfb15b]/30">
-                {item.tag}
-              </div>
-
-              {/* Hover zoom indicator */}
-              <div className="absolute top-3 right-3 h-8 w-8 rounded-full bg-black/65 backdrop-blur-md text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              {/* Apenas ícone subtil no hover para indicar que amplia */}
+              <div className="absolute top-3 right-3 h-8 w-8 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <Maximize2 className="h-4 w-4 text-[#dfb15b]" />
-              </div>
-
-              {/* Subtle hover gradient on bottom */}
-              <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/85 via-black/40 to-transparent">
-                <h3 className="text-xs sm:text-sm font-bold text-white drop-shadow-sm">
-                  {item.title}
-                </h3>
               </div>
             </div>
           ))}
@@ -186,13 +161,13 @@ export default function ImageLibrarySection() {
           >
             {/* Top Toolbar */}
             <div className="p-3 sm:p-4 bg-[#0d382c] border-b border-[#dfb15b]/20 flex items-center justify-between z-10">
-              <div>
-                <span className="text-[10px] uppercase tracking-wider text-[#dfb15b] font-bold block">
-                  {selectedPhoto.tag}
+              <div className="flex items-center gap-3">
+                <span className="text-xs sm:text-sm font-bold text-white">
+                  Terreno no Troviscal • 50.000 €
                 </span>
-                <h3 className="text-xs sm:text-base font-bold text-white truncate max-w-xs sm:max-w-md">
-                  {selectedPhoto.title}
-                </h3>
+                <span className="text-xs text-[#dfb15b] font-bold">
+                  ({photos.findIndex(p => p.id === selectedPhoto.id) + 1} / {photos.length})
+                </span>
               </div>
 
               {/* Zoom & Action Controls */}
@@ -241,7 +216,7 @@ export default function ImageLibrarySection() {
               >
                 <Image
                   src={selectedPhoto.src}
-                  alt={selectedPhoto.title}
+                  alt={selectedPhoto.alt}
                   fill
                   className="object-contain"
                   priority
@@ -265,19 +240,6 @@ export default function ImageLibrarySection() {
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
-            </div>
-
-            {/* Footer with Description and Navigation Counter */}
-            <div className="p-3 sm:p-4 bg-[#0d382c] border-t border-[#dfb15b]/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-              <p className="text-emerald-100 text-center sm:text-left font-light max-w-2xl">
-                {selectedPhoto.desc}
-              </p>
-
-              <div className="flex items-center gap-2 text-white font-bold text-xs shrink-0">
-                <span className="text-[#dfb15b]">{photos.findIndex(p => p.id === selectedPhoto.id) + 1}</span>
-                <span>/</span>
-                <span>{photos.length}</span>
-              </div>
             </div>
 
           </div>
