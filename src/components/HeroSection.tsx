@@ -18,8 +18,8 @@ export default function HeroSection() {
       {/* Imagem de Fundo com Fotografia Real (tras.png) */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/tras.png"
-          alt="Vista panorâmica do terreno no Troviscal com relvado verdejante e cota plana"
+          src="/images/frente.png"
+          alt="Vista frontal do terreno no Troviscal com 38 metros de frente urbana"
           fill
           priority
           className="object-cover object-center"
