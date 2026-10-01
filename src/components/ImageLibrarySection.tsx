@@ -21,28 +21,33 @@ interface LibraryPhoto {
 const photos: LibraryPhoto[] = [
   {
     id: 1,
-    src: '/images/tras.png',
+    src: '/images/tras.webp',
     alt: 'Vista soalheira do terreno com relvado amplo'
   },
   {
     id: 2,
-    src: '/images/frente.png',
+    src: '/images/frente.webp',
     alt: 'Frente urbana de 38 metros ao longo da via asfaltada'
   },
   {
     id: 3,
-    src: '/images/frente-direita.png',
+    src: '/images/frente-direita.webp',
     alt: 'Perspectiva angular da entrada e topografia plana'
   },
   {
     id: 4,
-    src: '/images/lado-direita.png',
+    src: '/images/lado-direita.webp',
     alt: 'Envolvente residencial consolidada e cota direta'
   },
   {
     id: 5,
-    src: '/images/tras-direita.png',
+    src: '/images/tras-direita.webp',
     alt: 'Extrema posterior com arvoredo e privacidade'
+  },
+  {
+    id: 6,
+    src: '/images/mapa.webp',
+    alt: 'Planta de localização aérea oficial e implantação cadastral'
   }
 ];
 
@@ -111,35 +116,35 @@ export default function ImageLibrarySection() {
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
           <span className="text-[11px] uppercase tracking-wider text-[#dfb15b] font-bold block mb-1">
-            Galeria Fotográfica • 50.000 € (Negociável)
+            Galeria Fotográfica Completa • 6 Imagens Oficiais
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight">
-            Explore o Terreno em Alta Resolução
+            Explore Todos os Ângulos do Terreno
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-emerald-100 max-w-xl mx-auto font-light">
-            Clique em qualquer imagem para abrir em ecrã inteiro com zoom interativo e navegação entre os ângulos.
+            Clique em qualquer imagem para abrir em alta definição com zoom interativo e navegação direta.
           </p>
         </div>
 
-        {/* Aesthetic Sequential Photo Grid — SEM TEXTO NENHUM EM CIMA DAS FOTOS */}
+        {/* Aesthetic Sequential Photo Grid (6 Fotos em Grade Perfeita 2x3 / 3x2) */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
-          {photos.map((item, index) => (
+          {photos.map((item) => (
             <div
               key={item.id}
               onClick={() => openLightbox(item)}
-              className={`group relative rounded-2xl overflow-hidden bg-[#072218] border border-emerald-400/20 hover:border-[#dfb15b]/70 cursor-pointer shadow-md transition-all duration-300 hover:-translate-y-1 ${
-                index === 0 ? 'col-span-2 md:col-span-2 aspect-[16/9]' : 'aspect-[4/3] sm:aspect-[16/10]'
-              }`}
+              className="group relative rounded-2xl overflow-hidden bg-[#072218] border border-emerald-400/20 hover:border-[#dfb15b]/70 cursor-pointer shadow-md transition-all duration-300 hover:-translate-y-1 aspect-[4/3] sm:aspect-[16/10]"
             >
-              {/* Foto 100% limpa, sem qualquer texto por cima */}
+              {/* Foto 100% limpa, sem texto por cima */}
               <Image
                 src={item.src}
                 alt={item.alt}
                 fill
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 420px"
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
+                loading="lazy"
               />
 
-              {/* Apenas ícone subtil no hover para indicar que amplia */}
+              {/* Ícone subtil no hover */}
               <div className="absolute top-3 right-3 h-8 w-8 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <Maximize2 className="h-4 w-4 text-[#dfb15b]" />
               </div>
@@ -163,10 +168,10 @@ export default function ImageLibrarySection() {
             <div className="p-3 sm:p-4 bg-[#0d382c] border-b border-[#dfb15b]/20 flex items-center justify-between z-10">
               <div className="flex items-center gap-3">
                 <span className="text-xs sm:text-sm font-bold text-white">
-                  Terreno no Troviscal • 50.000 €
+                  Terreno no Troviscal • 50.000 € (Negociável)
                 </span>
                 <span className="text-xs text-[#dfb15b] font-bold">
-                  ({photos.findIndex(p => p.id === selectedPhoto.id) + 1} / {photos.length})
+                  ({photos.findIndex(p => p.id === selectedPhoto.id) + 1} de {photos.length})
                 </span>
               </div>
 
@@ -218,6 +223,7 @@ export default function ImageLibrarySection() {
                   src={selectedPhoto.src}
                   alt={selectedPhoto.alt}
                   fill
+                  sizes="100vw"
                   className="object-contain"
                   priority
                 />
