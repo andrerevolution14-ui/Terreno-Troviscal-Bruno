@@ -20,6 +20,14 @@ const PRESET_HORARIOS = [
   'Fim do dia (18h - 20h)',
 ];
 
+function getCleanDigits(phone: string): string {
+  let digits = phone.replace(/\D/g, '');
+  if (digits.startsWith('00351')) {
+    digits = digits.slice(2);
+  }
+  return digits;
+}
+
 export default function LeadForm() {
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -30,7 +38,10 @@ export default function LeadForm() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Ao carregar no botão do formulário, abre o aviso de confirmação do número
+  const phoneDigits = getCleanDigits(telefone);
+  const isPhoneValid = phoneDigits.length === 9 || phoneDigits.length === 12;
+
+  // Ao carregar no botão do formulário, valida os 9 ou 12 dígitos e abre confirmação
   const handlePreSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage('');
@@ -41,8 +52,16 @@ export default function LeadForm() {
       return;
     }
 
-    if (!telefone.trim() || telefone.trim().length < 6) {
-      setErrorMessage('Por favor, insira um número de telefone válido.');
+    if (!telefone.trim()) {
+      setErrorMessage('Por favor, insira o seu contacto telefónico.');
+      setStatus('error');
+      return;
+    }
+
+    if (!isPhoneValid) {
+      setErrorMessage(
+        `O número inserido tem ${phoneDigits.length} dígitos. É obrigatório ter exatamente 9 dígitos (ex: 912 345 678) ou 12 dígitos com indicativo (ex: +351 912 345 678).`
+      );
       setStatus('error');
       return;
     }
@@ -71,8 +90,8 @@ export default function LeadForm() {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.error || 'Erro ao submeter os dados.');
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || 'Erro ao submeter os dados para a base de dados.');
       }
 
       setIsConfirmingPhone(false);
@@ -80,7 +99,7 @@ export default function LeadForm() {
     } catch (err: any) {
       setIsConfirmingPhone(false);
       setStatus('error');
-      setErrorMessage(err.message || 'Ocorreu um erro ao processar o seu pedido.');
+      setErrorMessage(err.message || 'Ocorreu um erro ao processar o seu pedido. Por favor tente novamente.');
     }
   };
 
@@ -115,10 +134,10 @@ export default function LeadForm() {
                 <CheckCircle2 className="h-6 w-6 text-emerald-700" />
               </div>
               <h3 className="text-lg sm:text-xl font-bold text-[#0d382c] mb-1">
-                Pedido Registado com Sucesso!
+                Contacto Registado com Sucesso!
               </h3>
               <p className="text-xs sm:text-sm text-[#0d382c]/80 mb-5">
-                Obrigado, <strong>{nome}</strong>. Entraremos em contacto muito brevemente.
+                Obrigado, <strong>{nome}</strong>. O seu pedido foi gravado e entraremos em contacto muito brevemente.
               </p>
 
               {/* Aviso e Verificação do Número Pós-Formulário */}
@@ -130,7 +149,8 @@ export default function LeadForm() {
                       Aviso de Confirmação do Contacto
                     </span>
                     <p className="text-xs sm:text-sm text-[#0d382c] mt-0.5">
-                      Iremos ligar para: <strong className="text-base text-[#072218] font-mono tracking-wide">{telefone}</strong>
+                      Iremos ligar para: <strong className="text-base text-[#072218] font-mono tracking-wide">{telefone}</strong>{' '}
+                      <span className="text-[11px] text-emerald-800 font-semibold">({phoneDigits.length} dígitos)</span>
                     </p>
                     {horarioContacto && (
                       <p className="text-xs text-amber-900/90 mt-1 flex items-center gap-1.5">
@@ -193,6 +213,9 @@ export default function LeadForm() {
                   <Phone className="h-5 w-5 text-[#0f4c3a]" />
                   <span>{telefone}</span>
                 </div>
+                <div className="mt-1 text-[11px] text-emerald-800 font-semibold">
+                  ✓ {phoneDigits.length} dígitos confirmados
+                </div>
                 {horarioContacto && (
                   <div className="mt-2 text-xs font-medium text-emerald-900 inline-flex items-center gap-1.5 bg-emerald-100/70 px-3 py-1 rounded-full">
                     <Clock className="h-3 w-3 text-emerald-800" />
@@ -212,7 +235,7 @@ export default function LeadForm() {
                   {status === 'loading' ? (
                     <span className="inline-flex items-center gap-2">
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      <span>A submeter pedido...</span>
+                      <span>A guardar contacto no Neon...</span>
                     </span>
                   ) : (
                     <>
@@ -259,21 +282,39 @@ export default function LeadForm() {
                 />
               </div>
 
-              {/* Contacto Telefónico (Email removido conforme solicitado) */}
+              {/* Contacto Telefónico (Obrigatório 9 ou 12 dígitos) */}
               <div>
-                <label className="block text-xs font-bold text-[#0d382c] mb-1">
-                  Contacto Telefónico *
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-bold text-[#0d382c]">
+                    Contacto Telefónico *
+                  </label>
+                  {telefone.length > 0 && (
+                    <span 
+                      className={`text-[11px] font-semibold ${
+                        isPhoneValid ? 'text-emerald-700 font-bold' : 'text-amber-700'
+                      }`}
+                    >
+                      {phoneDigits.length} dígitos {isPhoneValid ? '✓' : '(obriga 9 ou 12)'}
+                    </span>
+                  )}
+                </div>
+
                 <input
                   type="tel"
+                  inputMode="tel"
                   required
-                  placeholder="+351 912 345 678"
+                  placeholder="Ex: 912 345 678 ou +351 912 345 678"
                   value={telefone}
                   onChange={(e) => setTelefone(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#f8faf8] border border-[#0d382c]/20 text-[#0d382c] text-xs sm:text-sm focus:outline-none focus:border-[#0f4c3a] focus:ring-1 focus:ring-[#0f4c3a] transition-colors font-mono"
+                  className={`w-full px-3.5 py-2.5 rounded-xl bg-[#f8faf8] border text-[#0d382c] text-xs sm:text-sm focus:outline-none focus:ring-1 transition-colors font-mono ${
+                    telefone.length > 0 && !isPhoneValid
+                      ? 'border-amber-400 focus:border-amber-500 focus:ring-amber-500'
+                      : 'border-[#0d382c]/20 focus:border-[#0f4c3a] focus:ring-[#0f4c3a]'
+                  }`}
                 />
-                <span className="text-[11px] text-[#0d382c]/60 mt-1 block">
-                  Iremos ligar para este número para responder às suas dúvidas e agendar visita.
+                
+                <span className="text-[11px] text-[#0d382c]/65 mt-1 block">
+                  Obrigatório conter <strong>9 dígitos</strong> (nacional) ou <strong>12 dígitos</strong> (com indicativo +351).
                 </span>
               </div>
 
@@ -331,4 +372,5 @@ export default function LeadForm() {
     </section>
   );
 }
+
 

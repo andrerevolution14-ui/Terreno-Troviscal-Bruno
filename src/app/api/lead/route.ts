@@ -13,9 +13,24 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!telefone || typeof telefone !== 'string' || telefone.trim().length < 6) {
+    if (!telefone || typeof telefone !== 'string') {
       return NextResponse.json(
         { error: 'Por favor, insira o seu contacto telefónico.' },
+        { status: 400 }
+      );
+    }
+
+    // Validação estrita: exatamente 9 ou 12 dígitos
+    let digits = telefone.replace(/\D/g, '');
+    if (digits.startsWith('00351')) {
+      digits = digits.slice(2);
+    }
+
+    if (digits.length !== 9 && digits.length !== 12) {
+      return NextResponse.json(
+        { 
+          error: `O número inserido tem ${digits.length} dígitos. O contacto telefónico tem de ter obrigatoriamente 9 dígitos (ex: 912 345 678) ou 12 dígitos com indicativo (ex: +351 912 345 678).` 
+        },
         { status: 400 }
       );
     }
@@ -32,18 +47,26 @@ export async function POST(request: Request) {
 
     const result = await saveLeadToNeon(leadData);
 
+    if (!result.savedToNeon) {
+      return NextResponse.json(
+        { error: 'Não foi possível gravar o contacto na base de dados Neon. Por favor tente novamente.' },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json({
       success: true,
-      message: 'Contacto registado com sucesso!',
-      savedToNeon: result.savedToNeon,
+      message: 'Contacto registado com sucesso no Neon!',
+      savedToNeon: true,
       id: result.id
     });
   } catch (error: any) {
     console.error('Erro ao processar lead no Neon:', error);
     return NextResponse.json(
-      { error: 'Ocorreu um erro ao submeter. Por favor, tente novamente.' },
+      { error: error?.message || 'Ocorreu um erro ao submeter. Por favor, tente novamente.' },
       { status: 500 }
     );
   }
 }
+
 
