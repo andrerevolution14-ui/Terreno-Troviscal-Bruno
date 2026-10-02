@@ -4,18 +4,11 @@ import { saveLeadToNeon, LeadData } from '@/lib/db';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { nome, email, telefone, data_visita } = body;
+    const { nome, telefone, horario_contacto, data_visita, email } = body;
 
     if (!nome || typeof nome !== 'string' || nome.trim().length < 2) {
       return NextResponse.json(
         { error: 'Por favor, indique o seu nome.' },
-        { status: 400 }
-      );
-    }
-
-    if (!email || typeof email !== 'string' || !email.includes('@')) {
-      return NextResponse.json(
-        { error: 'Por favor, insira um e-mail válido.' },
         { status: 400 }
       );
     }
@@ -29,8 +22,9 @@ export async function POST(request: Request) {
 
     const leadData: LeadData = {
       nome: nome.trim(),
-      email: email.trim().toLowerCase(),
+      email: email ? String(email).trim().toLowerCase() : '',
       telefone: telefone.trim(),
+      horario_contacto: horario_contacto ? String(horario_contacto).trim() : '',
       data_visita: data_visita ? String(data_visita).trim() : '',
       tipo_interesse: 'Quero ser contactado',
       origem: 'Landing Page Terreno Troviscal'
@@ -52,3 +46,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

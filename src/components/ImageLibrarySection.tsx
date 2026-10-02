@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { 
   Maximize2, 
@@ -9,7 +9,8 @@ import {
   ChevronRight, 
   ZoomIn, 
   ZoomOut, 
-  RotateCcw
+  RotateCcw,
+  Eye
 } from 'lucide-react';
 
 interface LibraryPhoto {
@@ -52,45 +53,57 @@ const photos: LibraryPhoto[] = [
 ];
 
 export default function ImageLibrarySection() {
-  const [selectedPhoto, setSelectedPhoto] = useState<LibraryPhoto | null>(null);
+  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [scale, setScale] = useState(1);
 
-  const openLightbox = (photo: LibraryPhoto) => {
-    setSelectedPhoto(photo);
+  // Referência para toque e swipe em mobile
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+
+  // Pré-carregamento imediato de todas as imagens em cache no momento da montagem
+  useEffect(() => {
+    photos.forEach((photo) => {
+      const img = new window.Image();
+      img.src = photo.src;
+    });
+  }, []);
+
+  const openLightbox = (index: number) => {
+    setCurrentIndex(index);
     setScale(1);
   };
 
-  const closeLightbox = () => {
-    setSelectedPhoto(null);
+  const closeLightbox = useCallback(() => {
+    setCurrentIndex(null);
     setScale(1);
-  };
+  }, []);
 
-  const nextPhoto = (e?: React.MouseEvent) => {
+  const nextPhoto = useCallback((e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    if (!selectedPhoto) return;
-    const currentIndex = photos.findIndex(p => p.id === selectedPhoto.id);
-    const nextIndex = (currentIndex + 1) % photos.length;
-    setSelectedPhoto(photos[nextIndex]);
+    setCurrentIndex((prev) => {
+      if (prev === null) return 0;
+      return (prev + 1) % photos.length;
+    });
     setScale(1);
-  };
+  }, []);
 
-  const prevPhoto = (e?: React.MouseEvent) => {
+  const prevPhoto = useCallback((e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
-    if (!selectedPhoto) return;
-    const currentIndex = photos.findIndex(p => p.id === selectedPhoto.id);
-    const prevIndex = (currentIndex - 1 + photos.length) % photos.length;
-    setSelectedPhoto(photos[prevIndex]);
+    setCurrentIndex((prev) => {
+      if (prev === null) return 0;
+      return (prev - 1 + photos.length) % photos.length;
+    });
     setScale(1);
-  };
+  }, []);
 
   const zoomIn = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setScale(prev => Math.min(prev + 0.35, 2.8));
+    setScale((prev) => Math.min(prev + 0.4, 3.0));
   };
 
   const zoomOut = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setScale(prev => Math.max(prev - 0.35, 1));
+    setScale((prev) => Math.max(prev - 0.4, 1));
   };
 
   const resetZoom = (e: React.MouseEvent) => {
@@ -98,16 +111,44 @@ export default function ImageLibrarySection() {
     setScale(1);
   };
 
+  // Suporte a teclado
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!selectedPhoto) return;
+      if (currentIndex === null) return;
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowRight') nextPhoto();
       if (e.key === 'ArrowLeft') prevPhoto();
+      if (e.key === '+' || e.key === '=') setScale((prev) => Math.min(prev + 0.4, 3.0));
+      if (e.key === '-' || e.key === '_') setScale((prev) => Math.max(prev - 0.4, 1));
+      if (e.key === '0') setScale(1);
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedPhoto]);
+  }, [currentIndex, closeLightbox, nextPhoto, prevPhoto]);
+
+  // Gestos de toque para passar fotos rapidamente em telemóveis
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+    touchEndX.current = null;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+    const diff = touchStartX.current - touchEndX.current;
+    if (diff > 45) {
+      nextPhoto();
+    } else if (diff < -45) {
+      prevPhoto();
+    }
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
+  const activePhoto = currentIndex !== null ? photos[currentIndex] : null;
 
   return (
     <section id="galeria" className="py-12 sm:py-16 bg-[#092c22] text-white border-b border-[#dfb15b]/20">
@@ -122,31 +163,35 @@ export default function ImageLibrarySection() {
             Explore Todos os Ângulos do Terreno
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-emerald-100 max-w-xl mx-auto font-light">
-            Clique em qualquer imagem para abrir em alta definição com zoom interativo e navegação direta.
+            Clique em qualquer imagem para abrir em ecrã completo com carregamento ultrarrápido, zoom e transição instantânea.
           </p>
         </div>
 
         {/* Aesthetic Sequential Photo Grid (6 Fotos em Grade Perfeita 2x3 / 3x2) */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
-          {photos.map((item) => (
+          {photos.map((item, index) => (
             <div
               key={item.id}
-              onClick={() => openLightbox(item)}
-              className="group relative rounded-2xl overflow-hidden bg-[#072218] border border-emerald-400/20 hover:border-[#dfb15b]/70 cursor-pointer shadow-md transition-all duration-300 hover:-translate-y-1 aspect-[4/3] sm:aspect-[16/10]"
+              onClick={() => openLightbox(index)}
+              className="group relative rounded-2xl overflow-hidden bg-[#072218] border border-emerald-400/20 hover:border-[#dfb15b]/80 cursor-pointer shadow-md transition-all duration-200 hover:-translate-y-1 aspect-[4/3] sm:aspect-[16/10]"
             >
-              {/* Foto 100% limpa, sem texto por cima */}
+              {/* Foto com carregamento otimizado */}
               <Image
                 src={item.src}
                 alt={item.alt}
                 fill
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 420px"
-                className="object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
-                loading="lazy"
+                className="object-cover object-center group-hover:scale-105 transition-transform duration-300 ease-out"
+                priority={index < 4}
+                unoptimized
               />
 
-              {/* Ícone subtil no hover */}
-              <div className="absolute top-3 right-3 h-8 w-8 rounded-full bg-black/60 backdrop-blur-md text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <Maximize2 className="h-4 w-4 text-[#dfb15b]" />
+              {/* Botão interativo no hover */}
+              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#072218]/90 text-[#dfb15b] text-xs font-bold shadow-lg border border-[#dfb15b]/40">
+                  <Maximize2 className="h-3.5 w-3.5" />
+                  <span>Ver Foto</span>
+                </span>
               </div>
             </div>
           ))}
@@ -154,32 +199,32 @@ export default function ImageLibrarySection() {
 
       </div>
 
-      {/* Fullscreen Lightbox Modal with Zoom & Navigation */}
-      {selectedPhoto && (
+      {/* Fullscreen Lightbox Modal com Carregamento e Transição Ultrarrápidos */}
+      {currentIndex !== null && activePhoto && (
         <div 
           onClick={closeLightbox}
-          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-6 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-2 sm:p-5 animate-in fade-in duration-150 select-none"
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-6xl w-full h-[92vh] flex flex-col bg-[#072218] rounded-2xl border border-[#dfb15b]/40 overflow-hidden shadow-2xl"
+            className="relative max-w-6xl w-full h-[94vh] flex flex-col bg-[#072218] rounded-2xl border border-[#dfb15b]/40 overflow-hidden shadow-2xl"
           >
             {/* Top Toolbar */}
-            <div className="p-3 sm:p-4 bg-[#0d382c] border-b border-[#dfb15b]/20 flex items-center justify-between z-10">
-              <div className="flex items-center gap-3">
-                <span className="text-xs sm:text-sm font-bold text-white">
-                  Terreno no Troviscal • 50.000 € (Negociável)
+            <div className="p-3 sm:p-4 bg-[#0d382c] border-b border-[#dfb15b]/20 flex items-center justify-between z-20 shrink-0">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <span className="text-xs sm:text-sm font-bold text-white line-clamp-1">
+                  Terreno no Troviscal • 50.000 €
                 </span>
-                <span className="text-xs text-[#dfb15b] font-bold">
-                  ({photos.findIndex(p => p.id === selectedPhoto.id) + 1} de {photos.length})
+                <span className="text-xs text-[#dfb15b] font-mono font-bold bg-[#072218] px-2 py-0.5 rounded-full border border-[#dfb15b]/30">
+                  {currentIndex + 1} / {photos.length}
                 </span>
               </div>
 
               {/* Zoom & Action Controls */}
-              <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="flex items-center gap-1 sm:gap-1.5">
                 <button
                   onClick={zoomIn}
-                  className="h-8 px-2.5 rounded-lg bg-[#072218] border border-[#dfb15b]/30 text-white hover:bg-[#dfb15b] hover:text-[#072218] transition-colors flex items-center gap-1 text-xs cursor-pointer"
+                  className="h-8 px-2 rounded-lg bg-[#072218] border border-[#dfb15b]/30 text-white hover:bg-[#dfb15b] hover:text-[#072218] transition-colors flex items-center gap-1 text-xs cursor-pointer active:scale-95"
                   title="Aumentar Zoom (+)"
                 >
                   <ZoomIn className="h-3.5 w-3.5" />
@@ -188,24 +233,26 @@ export default function ImageLibrarySection() {
 
                 <button
                   onClick={zoomOut}
-                  className="h-8 px-2.5 rounded-lg bg-[#072218] border border-[#dfb15b]/30 text-white hover:bg-[#dfb15b] hover:text-[#072218] transition-colors flex items-center gap-1 text-xs cursor-pointer"
+                  className="h-8 px-2 rounded-lg bg-[#072218] border border-[#dfb15b]/30 text-white hover:bg-[#dfb15b] hover:text-[#072218] transition-colors flex items-center gap-1 text-xs cursor-pointer active:scale-95"
                   title="Diminuir Zoom (-)"
                 >
                   <ZoomOut className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Zoom -</span>
                 </button>
 
-                <button
-                  onClick={resetZoom}
-                  className="h-8 px-2 rounded-lg bg-[#072218] border border-[#dfb15b]/30 text-white hover:bg-[#dfb15b] hover:text-[#072218] transition-colors flex items-center justify-center text-xs cursor-pointer"
-                  title="Repor Escala (100%)"
-                >
-                  <RotateCcw className="h-3 w-3" />
-                </button>
+                {scale !== 1 && (
+                  <button
+                    onClick={resetZoom}
+                    className="h-8 px-2 rounded-lg bg-[#072218] border border-[#dfb15b]/30 text-[#dfb15b] hover:bg-[#dfb15b] hover:text-[#072218] transition-colors flex items-center justify-center text-xs cursor-pointer"
+                    title="Repor Escala (100%)"
+                  >
+                    <RotateCcw className="h-3 w-3" />
+                  </button>
+                )}
 
                 <button
                   onClick={closeLightbox}
-                  className="h-8 w-8 rounded-lg bg-[#072218] border border-[#dfb15b]/30 text-white hover:bg-red-600 transition-colors flex items-center justify-center cursor-pointer ml-2"
+                  className="h-8 w-8 rounded-lg bg-[#072218] border border-[#dfb15b]/30 text-white hover:bg-red-600 transition-colors flex items-center justify-center cursor-pointer ml-1 active:scale-95"
                   title="Fechar (Esc)"
                 >
                   <X className="h-4 w-4" />
@@ -213,39 +260,94 @@ export default function ImageLibrarySection() {
               </div>
             </div>
 
-            {/* Viewport with Zoom Container & Navigation Arrows */}
-            <div className="relative flex-1 w-full bg-black/70 flex items-center justify-center overflow-auto p-2">
-              <div 
-                className="relative w-full h-full min-h-[350px] transition-transform duration-200 ease-out flex items-center justify-center"
-                style={{ transform: `scale(${scale})` }}
-              >
-                <Image
-                  src={selectedPhoto.src}
-                  alt={selectedPhoto.alt}
-                  fill
-                  sizes="100vw"
-                  className="object-contain"
-                  priority
-                />
-              </div>
+            {/* Viewport: Multi-Image Pre-Rendered Stack para Transição Instantânea (0ms de atraso) */}
+            <div 
+              className="relative flex-1 w-full bg-black/80 flex items-center justify-center overflow-hidden touch-pan-y"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              {photos.map((photo, index) => {
+                const isSelected = index === currentIndex;
+                return (
+                  <div
+                    key={photo.id}
+                    className={`absolute inset-0 flex items-center justify-center transition-opacity duration-150 ease-out ${
+                      isSelected ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+                    }`}
+                    style={{
+                      transform: isSelected ? `scale(${scale})` : 'scale(1)',
+                      transition: 'opacity 120ms ease-out, transform 150ms ease-out',
+                    }}
+                  >
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt}
+                      fill
+                      sizes="100vw"
+                      className="object-contain p-2 sm:p-4 select-none"
+                      priority
+                      unoptimized
+                    />
+                  </div>
+                );
+              })}
 
-              {/* Prev Arrow */}
+              {/* Botão Anterior */}
               <button
                 onClick={prevPhoto}
-                className="absolute left-3 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-black/75 border border-[#dfb15b]/40 text-white hover:bg-[#dfb15b] hover:text-[#072218] flex items-center justify-center transition-all cursor-pointer shadow-lg"
+                className="absolute left-2.5 sm:left-4 top-1/2 -translate-y-1/2 z-20 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-black/75 border border-[#dfb15b]/50 text-white hover:bg-[#dfb15b] hover:text-[#072218] flex items-center justify-center transition-all cursor-pointer shadow-xl active:scale-90"
                 title="Foto anterior (←)"
               >
                 <ChevronLeft className="h-6 w-6" />
               </button>
 
-              {/* Next Arrow */}
+              {/* Botão Seguinte */}
               <button
                 onClick={nextPhoto}
-                className="absolute right-3 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-black/75 border border-[#dfb15b]/40 text-white hover:bg-[#dfb15b] hover:text-[#072218] flex items-center justify-center transition-all cursor-pointer shadow-lg"
+                className="absolute right-2.5 sm:right-4 top-1/2 -translate-y-1/2 z-20 h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-black/75 border border-[#dfb15b]/50 text-white hover:bg-[#dfb15b] hover:text-[#072218] flex items-center justify-center transition-all cursor-pointer shadow-xl active:scale-90"
                 title="Próxima foto (→)"
               >
                 <ChevronRight className="h-6 w-6" />
               </button>
+            </div>
+
+            {/* Barra Inferior com Legenda e Faixa de Miniaturas (Mini-Strip para Seleção Imediata) */}
+            <div className="p-2.5 sm:p-3 bg-[#0d382c] border-t border-[#dfb15b]/20 flex flex-col sm:flex-row items-center justify-between gap-2.5 z-20 shrink-0">
+              <p className="text-[11px] sm:text-xs text-emerald-100 text-center sm:text-left truncate max-w-sm">
+                {activePhoto.alt}
+              </p>
+
+              {/* Faixa de Miniaturas para passagem instantânea de fotos com 1 toque */}
+              <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto py-1">
+                {photos.map((thumb, idx) => {
+                  const isThumbActive = idx === currentIndex;
+                  return (
+                    <button
+                      key={thumb.id}
+                      onClick={() => {
+                        setCurrentIndex(idx);
+                        setScale(1);
+                      }}
+                      className={`relative h-10 w-14 sm:h-11 sm:w-16 rounded-md overflow-hidden border-2 transition-all cursor-pointer shrink-0 ${
+                        isThumbActive 
+                          ? 'border-[#dfb15b] ring-2 ring-[#dfb15b]/60 scale-105' 
+                          : 'border-white/20 opacity-60 hover:opacity-100 hover:border-white/50'
+                      }`}
+                      title={thumb.alt}
+                    >
+                      <Image
+                        src={thumb.src}
+                        alt=""
+                        fill
+                        sizes="64px"
+                        className="object-cover"
+                        unoptimized
+                      />
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
           </div>
@@ -254,3 +356,4 @@ export default function ImageLibrarySection() {
     </section>
   );
 }
+

@@ -15,42 +15,42 @@ interface GalleryItem {
 const galleryItems: GalleryItem[] = [
   {
     id: 1,
-    src: '/images/frente.png',
+    src: '/images/frente.webp',
     title: 'Frente Urbana (38m)',
     tag: 'Acesso Principal',
     description: 'Extensão linear ao longo da via asfaltada com eletricidade e iluminação pública.'
   },
   {
     id: 2,
-    src: '/images/frente-direita.png',
+    src: '/images/frente-direita.webp',
     title: 'Topografia Plana',
     tag: 'Cota Direta',
     description: 'Entrada suave sem declives, permitindo obra mais rápida e económica.'
   },
   {
     id: 3,
-    src: '/images/lado-direita.png',
+    src: '/images/lado-direita.webp',
     title: 'Envolvente Residencial',
     tag: 'Área Consolidada',
     description: 'Zona tranquila com moradias unifamiliares modernas no Troviscal.'
   },
   {
     id: 4,
-    src: '/images/tras.png',
+    src: '/images/tras.webp',
     title: 'Profundidade do Lote',
     tag: 'Orientação Solar',
     description: 'Ampla profundidade para jardim privativo, piscina e exposição solar favorável.'
   },
   {
     id: 5,
-    src: '/images/tras-direita.png',
+    src: '/images/tras-direita.webp',
     title: 'Extrema Posterior',
     tag: 'Privacidade',
     description: 'Resguardo natural circundante, ar puro e sossego constante.'
   },
   {
     id: 6,
-    src: '/images/mapa.png',
+    src: '/images/mapa.webp',
     title: 'Planta Cadastral',
     tag: 'Documentação',
     description: 'Morfologia regular com os 38m de frente e 1.474,50 m² delimitados.'
