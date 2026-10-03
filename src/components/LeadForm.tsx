@@ -12,6 +12,7 @@ import {
   Edit3, 
   Check
 } from 'lucide-react';
+import { trackFormSubmissionLead, generateEventId, getCookie } from '@/lib/analytics';
 
 const PRESET_HORARIOS = [
   'Qualquer hora',
@@ -75,6 +76,11 @@ export default function LeadForm() {
     setStatus('loading');
     setErrorMessage('');
 
+    const eventId = generateEventId('lead');
+    const fbp = getCookie('_fbp');
+    const fbc = getCookie('_fbc');
+    const sourceUrl = typeof window !== 'undefined' ? window.location.href : undefined;
+
     try {
       const res = await fetch('/api/lead', {
         method: 'POST',
@@ -85,6 +91,10 @@ export default function LeadForm() {
           nome: nome.trim(),
           telefone: telefone.trim(),
           horario_contacto: horarioContacto.trim(),
+          eventId,
+          fbp,
+          fbc,
+          sourceUrl,
         }),
       });
 
@@ -93,6 +103,13 @@ export default function LeadForm() {
       if (!res.ok || !data.success) {
         throw new Error(data.error || 'Erro ao submeter os dados para a base de dados.');
       }
+
+      // DISPARO CLIENT-SIDE: LEAD com o valor mais alto (50.000€) e deduplicação partilhada
+      trackFormSubmissionLead({
+        nome: nome.trim(),
+        telefone: telefone.trim(),
+        eventId: data.eventId || eventId,
+      });
 
       setIsConfirmingPhone(false);
       setStatus('success');
