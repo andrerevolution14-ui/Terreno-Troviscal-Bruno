@@ -5,11 +5,6 @@ export const META_PIXEL_ID =
   process.env.NEXT_PUBLIC_META_PIXEL_ID ||
   '979841341182458';
 
-export const META_CAPI_ACCESS_TOKEN =
-  process.env.META_ACCESS_TOKEN ||
-  process.env.META_CAPI_ACCESS_TOKEN ||
-  'EAAT9k03bEqsBSgjVoa82Fet3Yiurus5KtnXVbjnPh6eVD42uNpHjz4uJsZAgZCRYrg4jcPZBZCIXZBPbNrCdrMzKryYhF0c07LSM2qmkIBvJ2OpsgIigbbcBVLFByCi6d8ZALAg87QREmel4XtaTh75xWR60eKdNYeYjvkTdCZAp4jZCk0dGoJiFVJAxneHXYAZDZD';
-
 function sha256(value: string): string {
   return crypto.createHash('sha256').update(value.trim().toLowerCase()).digest('hex');
 }
@@ -33,6 +28,9 @@ export interface MetaLeadPayload {
   nome: string;
   telefone: string;
   email?: string | null;
+  perfil?: string | null;
+  financiamento?: string | null;
+  prazo?: string | null;
   sourceUrl?: string;
   clientIp?: string | null;
   clientUserAgent?: string | null;
@@ -41,13 +39,22 @@ export interface MetaLeadPayload {
 }
 
 /**
- * Envia evento LEAD para a Meta Conversions API (CAPI) via Server-Side.
- * Garante deduplicação perfeita com o Meta Pixel do browser através do mesmo `eventId`.
- * Valor registado: 50.000€ (Objetivo de Valor Mais Alto - Preço do Terreno no Troviscal).
+ * Envia evento Lead para a Meta Conversions API (CAPI) via servidor.
+ * Deduplica com o Pixel do browser através do mesmo `eventId`.
+ * O token é lido exclusivamente da variável de ambiente META_CAPI_TOKEN.
  */
 export async function sendMetaLeadConversion(data: MetaLeadPayload) {
   try {
-    const { eventId, nome, telefone, email, sourceUrl, clientIp, clientUserAgent, fbp, fbc } = data;
+    const token = process.env.META_CAPI_TOKEN;
+    if (!token) {
+      console.warn('⚠️ [Meta CAPI] META_CAPI_TOKEN não definido. Evento server-side não enviado.');
+      return { success: false, error: 'META_CAPI_TOKEN em falta' };
+    }
+
+    const {
+      eventId, nome, telefone, email, perfil, financiamento, prazo,
+      sourceUrl, clientIp, clientUserAgent, fbp, fbc,
+    } = data;
 
     const normalizedPhone = normalizePhone(telefone);
     const firstName = nome.trim().split(' ')[0] || nome.trim();
@@ -57,22 +64,11 @@ export async function sendMetaLeadConversion(data: MetaLeadPayload) {
       fn: [sha256(firstName)],
     };
 
-    if (email && email.trim().length > 3) {
-      userData.em = [sha256(email)];
-    }
-
-    if (clientIp) {
-      userData.client_ip_address = clientIp;
-    }
-    if (clientUserAgent) {
-      userData.client_user_agent = clientUserAgent;
-    }
-    if (fbp) {
-      userData.fbp = fbp;
-    }
-    if (fbc) {
-      userData.fbc = fbc;
-    }
+    if (email && email.trim().length > 3) userData.em = [sha256(email)];
+    if (clientIp) userData.client_ip_address = clientIp;
+    if (clientUserAgent) userData.client_user_agent = clientUserAgent;
+    if (fbp) userData.fbp = fbp;
+    if (fbc) userData.fbc = fbc;
 
     const payload = {
       data: [
@@ -88,17 +84,20 @@ export async function sendMetaLeadConversion(data: MetaLeadPayload) {
             value: 50000,
             content_name: 'Terreno Urbano no Troviscal - 1.474,50 m²',
             content_category: 'Imobiliário',
+            perfil: perfil || 'nao_indicado',
+            financiamento: financiamento || 'nao_indicado',
+            prazo: prazo || 'nao_indicado',
           },
         },
       ],
     };
 
-    const url = `https://graph.facebook.com/v19.0/${META_PIXEL_ID}/events?access_token=${META_CAPI_ACCESS_TOKEN}`;
-
-    const response = await fetch(url, {
+    // Token enviado no cabeçalho (evita que apareça em URLs/logs).
+    const response = await fetch(`https://graph.facebook.com/v19.0/${META_PIXEL_ID}/events`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(payload),
     });
@@ -110,15 +109,10 @@ export async function sendMetaLeadConversion(data: MetaLeadPayload) {
       return { success: false, error: resJson };
     }
 
-    console.log('✅ [Meta CAPI] Evento Lead enviado com sucesso:', {
-      eventId,
-      events_received: resJson.events_received,
-      fbtrace_id: resJson.fbtrace_id,
-    });
-
     return { success: true, response: resJson };
-  } catch (error: any) {
-    console.error('❌ [Meta CAPI] Erro ao disparar evento Lead:', error.message);
-    return { success: false, error: error.message };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error('❌ [Meta CAPI] Erro ao disparar evento Lead:', message);
+    return { success: false, error: message };
   }
 }

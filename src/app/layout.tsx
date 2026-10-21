@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import { META_PIXEL_ID } from "@/lib/analytics";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -12,8 +13,8 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://terreno-troviscal.pt"),
-  title: "Terreno Urbano no Troviscal, Oliveira do Bairro | 1.474,50 m² • 38m Frente • 50.000€",
-  description: "Terreno plano de 1.474,50 m² com 38 metros de frente urbana no Troviscal, Oliveira do Bairro. Ideal para moradia familiar ou 3-4 moradias. Preço: 50.000€ (negociável).",
+  title: "Terreno Urbano no Troviscal, Oliveira do Bairro | 1.474,50 m² • 38 m de frente • 50.000 €",
+  description: "Terreno plano de 1.474,50 m² com 38 metros de frente no Troviscal, Oliveira do Bairro. Possível moradia familiar ou projeto de várias moradias, sujeito a validação no PDM. Preço: 50.000 € (negociável).",
   keywords: [
     "terreno troviscal",
     "terreno oliveira do bairro",
@@ -22,8 +23,8 @@ export const metadata: Metadata = {
     "50000 euros"
   ],
   openGraph: {
-    title: "Terreno Urbano no Troviscal | 1.474,50 m² • 38m Frente • 50.000€",
-    description: "Terreno urbano plano com 38m de frente e 1.474,50 m² em área consolidada. Oportunidade por 50.000€ (negociável).",
+    title: "Terreno Urbano no Troviscal | 1.474,50 m² • 38 m de frente • 50.000 €",
+    description: "Terreno plano com 38 m de frente e 1.474,50 m² no Troviscal, Oliveira do Bairro. 50.000 € (negociável).",
     url: "https://terreno-troviscal.pt",
     siteName: "Terreno Troviscal",
     images: [
@@ -64,7 +65,7 @@ export default function RootLayout({
               t.src=v;s=b.getElementsByTagName(e)[0];
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '979841341182458');
+              fbq('init', '${META_PIXEL_ID}');
               fbq('track', 'PageView');
             `,
           }}
@@ -74,8 +75,8 @@ export default function RootLayout({
             height="1"
             width="1"
             style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=979841341182458&ev=PageView&noscript=1"
-            alt="Meta Pixel"
+            src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+            alt=""
           />
         </noscript>
       </head>

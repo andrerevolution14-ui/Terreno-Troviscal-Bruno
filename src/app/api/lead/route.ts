@@ -7,6 +7,14 @@ function parseCookie(cookieHeader: string, name: string): string | null {
   return match ? decodeURIComponent(match[2]) : null;
 }
 
+const PERFIS = ['familia', 'investidor'];
+const FINANCIAMENTOS = ['sim', 'nao', 'a_avaliar'];
+const PRAZOS = ['imediato', 'ate_3_meses', '3_a_6_meses', 'mais_6_meses'];
+
+function pick(value: unknown, allowed: string[]): string {
+  return typeof value === 'string' && allowed.includes(value) ? value : '';
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -19,8 +27,15 @@ export async function POST(request: Request) {
       eventId: clientEventId, 
       sourceUrl: clientSourceUrl, 
       fbp: clientFbp, 
-      fbc: clientFbc 
+      fbc: clientFbc,
+      perfil: rawPerfil,
+      financiamento: rawFinanciamento,
+      prazo: rawPrazo,
     } = body;
+
+    const perfil = pick(rawPerfil, PERFIS);
+    const financiamento = pick(rawFinanciamento, FINANCIAMENTOS);
+    const prazo = pick(rawPrazo, PRAZOS);
 
     if (!nome || typeof nome !== 'string' || nome.trim().length < 2) {
       return NextResponse.json(
@@ -58,7 +73,10 @@ export async function POST(request: Request) {
       horario_contacto: horario_contacto ? String(horario_contacto).trim() : '',
       data_visita: data_visita ? String(data_visita).trim() : '',
       tipo_interesse: 'Quero ser contactado',
-      origem: 'Landing Page Terreno Troviscal'
+      origem: 'Landing Page Terreno Troviscal',
+      perfil,
+      financiamento,
+      prazo,
     };
 
     // 1. Gravar na base de dados Neon
@@ -89,6 +107,9 @@ export async function POST(request: Request) {
         nome: leadData.nome,
         telefone: leadData.telefone,
         email: leadData.email,
+        perfil,
+        financiamento,
+        prazo,
         sourceUrl,
         clientIp,
         clientUserAgent,
@@ -101,7 +122,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       success: true,
-      message: 'Contacto registado com sucesso no Neon e Meta Conversions API!',
+      message: 'Contacto registado com sucesso.',
       savedToNeon: true,
       id: result.id,
       eventId,

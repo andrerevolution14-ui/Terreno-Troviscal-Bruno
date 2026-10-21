@@ -32,14 +32,14 @@ export default function StatementSection() {
         </span>
 
         <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-[#fcf9f2] leading-[1.2] tracking-tight">
-          Onde o Seu Projeto Ganha Forma <br className="hidden sm:inline" />
-          <span className="italic text-[#dfc282]">com Perfeita Harmonia e Alto Valor.</span>
+          Onde o Seu Projeto Pode Ganhar Forma <br className="hidden sm:inline" />
+          <span className="italic text-[#dfc282]">no Troviscal.</span>
         </h2>
 
         <div className="editorial-divider" />
 
         <p className="mt-6 text-sm sm:text-base text-[#d1e0d7] font-light leading-relaxed max-w-2xl mx-auto">
-          A serenidade do campo com a facilidade da autoestrada. Uma parcela com espaço de sobra para viver, crescer ou concretizar um empreendimento imobiliário com retorno garantido.
+          Um terreno com espaço para viver, crescer ou desenvolver um projeto de moradias, sujeito a validação urbanística.
         </p>
 
         <div className="mt-10">

@@ -1,10 +1,35 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { trackViewContent } from '@/lib/analytics';
 
 export default function CalculatorSection() {
-  const [profile, setProfile] = useState<'familia' | 'investidor'>('familia');
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [profile, setProfileState] = useState<'familia' | 'investidor'>('familia');
+
+  const setProfile = (p: 'familia' | 'investidor') => {
+    setProfileState(p);
+    // Partilha o perfil escolhido com o formulário (pré-seleção)
+    window.dispatchEvent(new CustomEvent('simulador:perfil', { detail: p }));
+  };
+
+  // ViewContent: apenas uma vez, quando a secção do simulador entra no ecrã
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          trackViewContent();
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
   
   // Investor state
   const [units, setUnits] = useState<number>(3);
@@ -35,7 +60,7 @@ export default function CalculatorSection() {
   };
 
   return (
-    <section id="calculadora" className="py-12 sm:py-16 bg-[#f8faf8] text-[#0d382c] border-b border-[#e2ece6]">
+    <section ref={sectionRef} id="calculadora" className="py-12 sm:py-16 bg-[#f8faf8] text-[#0d382c] border-b border-[#e2ece6]">
       <div className="max-w-5xl mx-auto px-4 sm:px-8">
         
         {/* Header */}
@@ -44,10 +69,10 @@ export default function CalculatorSection() {
             Simulador de Viabilidade
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0d382c] tracking-tight">
-            Simulação com Valores Otimizados
+            Simulação Indicativa
           </h2>
           <p className="mt-1.5 text-xs sm:text-sm text-[#0d382c]/80">
-            Estimativa com base no terreno a 50.000€ e custos de obra económicos (~{costPerM2}€/m²).
+            Estimativa com base no terreno a 50.000 € e num custo de obra de referência (~{costPerM2} €/m²). Valores indicativos, sem compromisso.
           </p>
         </div>
 
@@ -111,9 +136,9 @@ export default function CalculatorSection() {
                   </div>
 
                   <div className="p-3 rounded-xl bg-[#f8faf8] border border-[#0d382c]/10 text-xs text-[#0d382c]/85 space-y-1">
-                    <div>• Custo de construção base: <strong>{costPerM2} €/m²</strong> (otimizado)</div>
+                    <div>• Custo de construção de referência: <strong>{costPerM2} €/m²</strong></div>
                     <div>• Terreno livre para jardim e piscina: <strong>~{gardenRemaining} m²</strong></div>
-                    <div>• Benefício fiscal: <strong>IVA a 6%</strong> na habitação própria</div>
+                    <div>• Taxa reduzida de IVA (6%) aplicável conforme as condições legais em vigor</div>
                   </div>
                 </div>
               </div>
@@ -215,17 +240,17 @@ export default function CalculatorSection() {
             <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#0f4c3a] to-[#125843] text-white border border-emerald-400/30 shadow-md flex flex-col justify-between">
               <div>
                 <span className="text-[10px] uppercase tracking-wider text-[#dfb15b] font-bold">
-                  Faturação Projetada ({units} Moradias)
+                  Receita de venda estimada ({units} moradias)
                 </span>
                 <div className="text-2xl sm:text-3xl font-black text-[#edd085] mt-1">
                   {totalRevenue.toLocaleString('pt-PT')} €
                 </div>
                 <p className="text-xs text-slate-200 mt-1">
-                  Estimativa de venda a partir de {salePricePerHouse.toLocaleString('pt-PT')}€ por moradia nova.
+                  Hipótese de venda a {salePricePerHouse.toLocaleString('pt-PT')} € por moradia nova. Não inclui custos de obra, projeto, licenças nem impostos.
                 </p>
 
                 <div className="mt-4 p-3 rounded-lg bg-[#0b3327]/80 border border-emerald-400/20 text-xs text-emerald-100">
-                  Alta liquidez na região devido à escassez de moradias novas e proximidade ao novo nó da A1.
+                  A viabilidade de dividir o terreno depende das regras do PDM e pode exigir operação de loteamento.
                 </div>
               </div>
 

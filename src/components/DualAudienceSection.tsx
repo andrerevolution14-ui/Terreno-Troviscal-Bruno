@@ -21,10 +21,10 @@ export default function DualAudienceSection() {
             Dois Destinos Possíveis
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#0d382c] tracking-tight">
-            Moradia Familiar de Sonho ou 3 a 4 Moradias
+            Moradia Familiar ou Projeto de 3 a 4 Moradias
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-[#0d382c]/80 max-w-xl mx-auto">
-            A frente contínua de 38m e os 1.474,50 m² planos adaptam-se com precisão a ambos os perfis.
+            A frente de 38 m e os 1.474,50 m² planos permitem equacionar ambos os perfis, sujeito a validação urbanística.
           </p>
         </div>
 
@@ -55,25 +55,25 @@ export default function DualAudienceSection() {
               </div>
 
               <p className="text-xs sm:text-sm text-[#0d382c]/80 mb-5 leading-relaxed">
-                Construa a sua moradia térrea ou de 2 pisos com piscina virada a sul e mais de 1.000 m² de quintal privativo sem abrir mão da proximidade a escolas e comércio.
+                Possibilidade de construir uma moradia térrea ou de 2 pisos, com piscina e quintal privativo, perto de escolas e comércio. A implantação depende do projeto e da aprovação municipal.
               </p>
 
               <ul className="space-y-2.5 text-xs text-[#0d382c]/90 mb-6">
                 <li className="flex items-start gap-2">
                   <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>38m de frente linear:</strong> portão duplo, entrada pedonal e total privacidade</span>
+                  <span><strong>38 m de frente:</strong> possibilidade de portão duplo e entrada pedonal</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>100% plano:</strong> poupança comprovada em muros de contenção</span>
+                  <span><strong>Terreno plano:</strong> tende a reduzir a necessidade de muros de contenção</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Benefício fiscal direto:</strong> taxa de IVA reduzida a 6% para habitação própria</span>
+                  <span><strong>IVA reduzido:</strong> taxa de 6% aplicável conforme as condições legais para habitação própria</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Preço de entrada:</strong> 50.000€ (negociável) com escritura imediata</span>
+                  <span><strong>Preço:</strong> 50.000 € (negociável)</span>
                 </li>
               </ul>
             </div>
@@ -106,30 +106,30 @@ export default function DualAudienceSection() {
                 </div>
 
                 <span className="text-[11px] font-bold text-[#b8860b] bg-[#dfb15b]/20 px-2.5 py-1 rounded-full">
-                  Alto ROI
+                  Promoção
                 </span>
               </div>
 
               <p className="text-xs sm:text-sm text-[#0d382c]/80 mb-5 leading-relaxed">
-                Fracionamento em banda ou geminadas com frentes autónomas de 9,5m a 12,6m por habitação, com infraestruturas existentes e excelente ritmo de vendas.
+                Hipótese de divisão em banda ou geminadas, com frentes de 9,5 m a 12,6 m por habitação. Depende das regras do PDM e pode exigir operação de loteamento.
               </p>
 
               <ul className="space-y-2.5 text-xs text-[#0d382c]/90 mb-6">
                 <li className="flex items-start gap-2">
                   <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Custo residual do solo:</strong> apenas ~12.500€ a 16.600€ por fração</span>
+                  <span><strong>Custo de solo por fração:</strong> cerca de 12.500 € a 16.600 €</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Infraestruturas à porta:</strong> água, luz e saneamento na rua adjacente</span>
+                  <span><strong>Infraestruturas:</strong> água, luz e saneamento na rua adjacente, a confirmar com as entidades gestoras</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Aprovações municipais céleres:</strong> 3 a 6 meses em Oliveira do Bairro</span>
+                  <span><strong>Prazos de licenciamento:</strong> referência indicativa de 3 a 6 meses, sem garantia</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span><strong>Escassez no mercado:</strong> forte procura de famílias que trabalham no eixo Aveiro</span>
+                  <span><strong>Procura na região:</strong> zona com ligação ao eixo Aveiro</span>
                 </li>
               </ul>
             </div>

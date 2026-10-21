@@ -9,6 +9,9 @@ export interface LeadData {
   tipo_interesse?: string;
   mensagem?: string;
   origem?: string;
+  perfil?: string;
+  financiamento?: string;
+  prazo?: string;
 }
 
 // Fallback robusto garantido para quando a app está em produção (ex: Vercel)
@@ -34,7 +37,7 @@ export async function saveLeadToNeon(lead: LeadData) {
   try {
     // 1. Inserção direta rápida (executa em ~200-300ms)
     const result = await sql`
-      INSERT INTO leads_terreno_troviscal (nome, email, telefone, horario_contacto, data_visita, tipo_interesse, origem)
+      INSERT INTO leads_terreno_troviscal (nome, email, telefone, horario_contacto, data_visita, tipo_interesse, origem, perfil, financiamento, prazo)
       VALUES (
         ${lead.nome}, 
         ${lead.email || ''}, 
@@ -42,7 +45,10 @@ export async function saveLeadToNeon(lead: LeadData) {
         ${lead.horario_contacto || ''},
         ${lead.data_visita || ''}, 
         ${lead.tipo_interesse || 'Interesse Geral'}, 
-        ${lead.origem || 'Landing Page Troviscal'}
+        ${lead.origem || 'Landing Page Troviscal'},
+        ${lead.perfil || ''},
+        ${lead.financiamento || ''},
+        ${lead.prazo || ''}
       )
       RETURNING id, created_at;
     `;
@@ -83,9 +89,15 @@ export async function saveLeadToNeon(lead: LeadData) {
       await sql`ALTER TABLE leads_terreno_troviscal ADD COLUMN IF NOT EXISTS data_visita VARCHAR(255) DEFAULT '';`;
     } catch {}
 
+    try {
+      await sql`ALTER TABLE leads_terreno_troviscal ADD COLUMN IF NOT EXISTS perfil VARCHAR(100) DEFAULT '';`;
+      await sql`ALTER TABLE leads_terreno_troviscal ADD COLUMN IF NOT EXISTS financiamento VARCHAR(100) DEFAULT '';`;
+      await sql`ALTER TABLE leads_terreno_troviscal ADD COLUMN IF NOT EXISTS prazo VARCHAR(100) DEFAULT '';`;
+    } catch {}
+
     // Tentar inserção novamente após sincronização de schema
     const retryResult = await sql`
-      INSERT INTO leads_terreno_troviscal (nome, email, telefone, horario_contacto, data_visita, tipo_interesse, origem)
+      INSERT INTO leads_terreno_troviscal (nome, email, telefone, horario_contacto, data_visita, tipo_interesse, origem, perfil, financiamento, prazo)
       VALUES (
         ${lead.nome}, 
         ${lead.email || ''}, 
@@ -93,7 +105,10 @@ export async function saveLeadToNeon(lead: LeadData) {
         ${lead.horario_contacto || ''},
         ${lead.data_visita || ''}, 
         ${lead.tipo_interesse || 'Interesse Geral'}, 
-        ${lead.origem || 'Landing Page Troviscal'}
+        ${lead.origem || 'Landing Page Troviscal'},
+        ${lead.perfil || ''},
+        ${lead.financiamento || ''},
+        ${lead.prazo || ''}
       )
       RETURNING id, created_at;
     `;
