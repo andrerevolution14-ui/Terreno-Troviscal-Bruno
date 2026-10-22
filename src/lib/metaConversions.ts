@@ -45,7 +45,10 @@ export interface MetaLeadPayload {
  */
 export async function sendMetaLeadConversion(data: MetaLeadPayload) {
   try {
-    const token = process.env.META_CAPI_TOKEN;
+    const token =
+      process.env.META_CAPI_TOKEN ||
+      process.env.META_ACCESS_TOKEN ||
+      process.env.META_CAPI_ACCESS_TOKEN;
     if (!token) {
       console.warn('⚠️ [Meta CAPI] META_CAPI_TOKEN não definido. Evento server-side não enviado.');
       return { success: false, error: 'META_CAPI_TOKEN em falta' };

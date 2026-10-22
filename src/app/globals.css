@@ -46,3 +46,37 @@
   border: 1px solid rgba(223, 177, 91, 0.35);
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 20px -5px rgba(223, 177, 91, 0.2);
 }
+
+/* WhatsApp Floating Radar & Glow Animations */
+@keyframes wa-radar {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.15;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.wa-radar-ring {
+  animation: wa-radar 2.4s infinite cubic-bezier(0.25, 0, 0.3, 1);
+}
+
+@keyframes wa-bounce-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.wa-subtle-float {
+  animation: wa-bounce-subtle 4s ease-in-out infinite;
+}
+

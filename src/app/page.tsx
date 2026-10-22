@@ -11,6 +11,7 @@ import CalculatorSection from '@/components/CalculatorSection';
 import ObjectionsSection from '@/components/ObjectionsSection';
 import LeadForm from '@/components/LeadForm';
 import FloatingCTA from '@/components/FloatingCTA';
+import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -46,7 +47,10 @@ export default function Home() {
       {/* 10. Pílula Flutuante Otimizada com Acabamento Glassmorphism */}
       <FloatingCTA />
 
-      {/* 11. Rodapé */}
+      {/* 11. Botão Flutuante de WhatsApp Aesthetic Sempre Ativo no Canto Inferior */}
+      <FloatingWhatsApp />
+
+      {/* 12. Rodapé */}
       <Footer />
     </main>
   );
