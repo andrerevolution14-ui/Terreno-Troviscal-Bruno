@@ -113,115 +113,29 @@ export function trackFormSubmissionLead({
   );
 }
 
-// In-memory debounce timestamp to prevent rapid double-clicks
-let lastWhatsAppClickTime = 0;
-
 /**
- * Disparado ao clicar em qualquer botão do WhatsApp (Flutuante, Barra ou Inline).
- * REGISTA O EVENTO "LEAD" NO META PIXEL COM VALOR DE 50.000 € E DEDUPLICAÇÃO
- * PERFEITA VIA EVENTID COM A CONVERSIONS API (CAPI) VIA /api/lead KEEPALIVE.
+ * Cliques ou mensagens por WhatsApp não são guardados na base de dados
+ * nem considerados Lead ou Contacto (sem tracking por solicitação explícita).
  */
 export function trackWhatsAppContact(
-  source = 'whatsapp_flutuante',
-  extra: Record<string, unknown> = {}
+  _source = 'whatsapp_flutuante',
+  _extra: Record<string, unknown> = {}
 ) {
-  if (typeof window === 'undefined') return;
-
-  const now = Date.now();
-  if (now - lastWhatsAppClickTime < 2000) {
-    return;
-  }
-  lastWhatsAppClickTime = now;
-
-  const eventId =
-    (extra.eventId as string) || generateEventId('wa_lead');
-  const sourceUrl =
-    typeof window !== 'undefined' ? window.location.href : undefined;
-  const fbp = getCookie('_fbp') || undefined;
-  const fbc = getCookie('_fbc') || undefined;
-  const objetivo = (extra.objetivo as string) || 'geral';
-
-  // 1. DISPARAR LEAD NO META PIXEL (50.000 €) com eventID para deduplicação
-  safeFbq(
-    'track',
-    'Lead',
-    {
-      content_name: 'Lead WhatsApp - Terreno Troviscal 50.000€',
-      content_category: 'Imobiliário',
-      value: 50000,
-      currency: 'EUR',
-      lead_source: `WhatsApp (${source})`,
-      objetivo,
-      status: 'Lead WhatsApp Iniciada',
-    },
-    { eventID: eventId }
-  );
-
-  // 2. DISPARAR CONTACT NO META PIXEL (para compatibilidade com conjuntos que otimizam por Contact)
-  safeFbq(
-    'track',
-    'Contact',
-    {
-      content_name: 'Clique WhatsApp',
-      origem: source,
-      objetivo,
-    },
-    { eventID: eventId }
-  );
-
-  // 3. ENVIAR PARA /api/lead VIA FETCH KEEPALIVE (Meta CAPI Server-side + Neon DB)
-  try {
-    fetch('/api/lead', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        isWhatsAppLead: true,
-        nome: (extra.nome as string) || 'Interessado WhatsApp',
-        telefone: (extra.telefone as string) || '+351 920 601 070',
-        tipo_interesse: `WhatsApp (${objetivo})`,
-        origem: `WhatsApp - ${source}`,
-        eventId,
-        fbp,
-        fbc,
-        sourceUrl,
-        objetivo,
-      }),
-      keepalive: true,
-    }).catch(() => {});
-  } catch {}
+  // Sem gravação na base de dados, sem Meta Pixel, sem CAPI, sem tracking.
 }
 
-/** Contact: clique em qualquer botão de WhatsApp (ou telefone). Mantido para retrocompatibilidade. */
+/** Contact: clique em qualquer botão de telefone. WhatsApp não é rastreado. */
 export function trackContactClick(
   method: 'whatsapp' | 'phone',
   origem?: string
 ) {
   if (method === 'whatsapp') {
-    trackWhatsAppContact(origem || 'whatsapp_link');
-  } else {
-    safeFbq('track', 'Contact', {
-      content_name: 'Clique Telefone',
-      origem: origem || 'desconhecida',
-    });
+    // Sem tracking para WhatsApp
+    return;
   }
+  safeFbq('track', 'Contact', {
+    content_name: 'Clique Telefone',
+    origem: origem || 'desconhecida',
+  });
 }
 
-// Listener global para captar qualquer link wa.me ou whatsapp.com
-if (typeof window !== 'undefined') {
-  window.addEventListener(
-    'click',
-    (e: MouseEvent) => {
-      const target = (e.target as HTMLElement | null)?.closest('a');
-      if (!target) return;
-      const href = target.getAttribute('href') || '';
-      if (href.includes('wa.me') || href.includes('whatsapp.com')) {
-        const source =
-          target.id || target.getAttribute('data-source') || 'wa_link_global';
-        trackWhatsAppContact(source);
-      }
-    },
-    { capture: true }
-  );
-}

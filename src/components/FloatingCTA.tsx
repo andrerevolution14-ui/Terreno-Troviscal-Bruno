@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { CalendarCheck, MessageCircle } from 'lucide-react';
-import { getWhatsAppUrl, trackContactClick } from '@/lib/analytics';
+import { getWhatsAppUrl } from '@/lib/analytics';
 
 /**
  * Barra fixa no fundo, visível depois de passar o hero: [Visitar terreno] [WhatsApp].
@@ -49,7 +49,6 @@ export default function FloatingCTA() {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => trackContactClick('whatsapp', 'barra_fixa')}
             className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-xs sm:text-sm font-extrabold uppercase tracking-wider bg-[#1f9d55] hover:bg-[#188046] text-white transition-colors whitespace-nowrap"
           >
             <MessageCircle className="h-4 w-4" aria-hidden="true" />

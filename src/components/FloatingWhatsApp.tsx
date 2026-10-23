@@ -1,22 +1,10 @@
 'use client';
 
 import React from 'react';
-import {
-  getWhatsAppUrl,
-  trackWhatsAppContact,
-  WHATSAPP_NUMBER,
-} from '@/lib/analytics';
+import { getWhatsAppUrl } from '@/lib/analytics';
 
 export default function FloatingWhatsApp() {
   const whatsappUrl = getWhatsAppUrl();
-
-  const handleClick = () => {
-    trackWhatsAppContact('whatsapp_flutuante', {
-      channel: 'whatsapp_floating_corner',
-      phone: `+${WHATSAPP_NUMBER}`,
-      property: 'Terreno Troviscal 1.474 m² (50.000 €)',
-    });
-  };
 
   return (
     <div
@@ -35,7 +23,6 @@ export default function FloatingWhatsApp() {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={handleClick}
           aria-label="Falar com o dono no WhatsApp"
           className="relative inline-flex items-center gap-2.5 pl-3.5 pr-4 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-[#1f9d55] via-[#25D366] to-[#128C7E] hover:from-[#188046] hover:via-[#20ba5a] hover:to-[#0f7568] text-white font-bold shadow-[0_8px_25px_rgba(37,211,102,0.45)] hover:shadow-[0_12px_32px_rgba(37,211,102,0.6)] border border-white/25 transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer"
         >

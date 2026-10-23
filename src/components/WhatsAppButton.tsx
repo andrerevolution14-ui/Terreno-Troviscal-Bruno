@@ -2,17 +2,17 @@
 
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
-import { getWhatsAppUrl, trackContactClick } from '@/lib/analytics';
+import { getWhatsAppUrl } from '@/lib/analytics';
 
 /**
- * Botão de WhatsApp com evento Contact no clique.
+ * Botão direto de WhatsApp (sem tracking/lead/contacto por solicitação explícita).
  * Não é apresentado enquanto NEXT_PUBLIC_WHATSAPP_NUMBER não estiver definido.
  */
 export default function WhatsAppButton({
-  origem,
+  origem: _origem,
   className = '',
 }: {
-  origem: string;
+  origem?: string;
   className?: string;
 }) {
   const url = getWhatsAppUrl();
@@ -23,7 +23,6 @@ export default function WhatsAppButton({
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={() => trackContactClick('whatsapp', origem)}
       className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider bg-[#1f9d55] hover:bg-[#188046] text-white transition-colors ${className}`}
     >
       <MessageCircle className="h-4 w-4" aria-hidden="true" />

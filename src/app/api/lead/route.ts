@@ -45,41 +45,40 @@ export async function POST(request: Request) {
     let telefone = typeof rawTelefone === 'string' ? rawTelefone.trim() : '';
 
     if (isWhatsAppLead) {
-      if (!nome || nome.length < 2) {
-        nome = 'Interessado WhatsApp';
-      }
-      if (!telefone || telefone.length < 8) {
-        telefone = '+351 920 601 070';
-      }
-    } else {
-      if (!nome || nome.length < 2) {
-        return NextResponse.json(
-          { error: 'Por favor, indique o seu nome.' },
-          { status: 400 }
-        );
-      }
+      // WhatsApp não é guardado na base de dados nem considerado Lead/Contacto
+      return NextResponse.json({
+        success: true,
+        message: 'WhatsApp ignorado (sem gravação de base de dados nem tracking).',
+      });
+    }
 
-      if (!telefone) {
-        return NextResponse.json(
-          { error: 'Por favor, insira o seu contacto telefónico.' },
-          { status: 400 }
-        );
-      }
+    if (!nome || nome.length < 2) {
+      return NextResponse.json(
+        { error: 'Por favor, indique o seu nome.' },
+        { status: 400 }
+      );
+    }
 
-      // Validação estrita: exatamente 9 ou 12 dígitos
-      let digits = telefone.replace(/\D/g, '');
-      if (digits.startsWith('00351')) {
-        digits = digits.slice(2);
-      }
+    if (!telefone) {
+      return NextResponse.json(
+        { error: 'Por favor, insira o seu contacto telefónico.' },
+        { status: 400 }
+      );
+    }
 
-      if (digits.length !== 9 && digits.length !== 12) {
-        return NextResponse.json(
-          { 
-            error: `O número inserido tem ${digits.length} dígitos. O contacto telefónico tem de ter obrigatoriamente 9 dígitos (ex: 912 345 678) ou 12 dígitos com indicativo (ex: +351 912 345 678).` 
-          },
-          { status: 400 }
-        );
-      }
+    // Validação estrita: exatamente 9 ou 12 dígitos
+    let digits = telefone.replace(/\D/g, '');
+    if (digits.startsWith('00351')) {
+      digits = digits.slice(2);
+    }
+
+    if (digits.length !== 9 && digits.length !== 12) {
+      return NextResponse.json(
+        { 
+          error: `O número inserido tem ${digits.length} dígitos. O contacto telefónico tem de ter obrigatoriamente 9 dígitos (ex: 912 345 678) ou 12 dígitos com indicativo (ex: +351 912 345 678).` 
+        },
+        { status: 400 }
+      );
     }
 
     const leadData: LeadData = {
@@ -88,8 +87,8 @@ export async function POST(request: Request) {
       telefone,
       horario_contacto: horario_contacto ? String(horario_contacto).trim() : '',
       data_visita: data_visita ? String(data_visita).trim() : '',
-      tipo_interesse: rawTipoInteresse || (isWhatsAppLead ? (objetivo ? `WhatsApp (${objetivo})` : 'Contacto WhatsApp') : 'Quero ser contactado'),
-      origem: rawOrigem || (isWhatsAppLead ? 'WhatsApp Flutuante' : 'Landing Page Terreno Troviscal'),
+      tipo_interesse: rawTipoInteresse || 'Quero ser contactado',
+      origem: rawOrigem || 'Landing Page Terreno Troviscal',
       perfil,
       financiamento,
       prazo,
