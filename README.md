@@ -8,6 +8,7 @@ Landing page imobiliária desenvolvida em **Next.js (App Router, Turbopack)** co
 
 - **Localização:** Troviscal, Oliveira do Bairro (Distrito de Aveiro)
 - **Área Total:** 1.474,50 m²
+- **Área de Implantação Estimada:** ~900 m² (a confirmar junto à Câmara Municipal)
 - **Frente Urbana:** 38 metros lineares
 - **Topografia:** 100% plano (poupança direta em escavações e muros de suporte)
 - **Preço de Oportunidade:** 46.500€ (Negociável — ~31,5€/m²)

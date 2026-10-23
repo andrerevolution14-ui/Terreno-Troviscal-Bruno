@@ -136,6 +136,7 @@ export default function CalculatorSection() {
                   </div>
 
                   <div className="p-3 rounded-xl bg-[#f8faf8] border border-[#0d382c]/10 text-xs text-[#0d382c]/85 space-y-1">
+                    <div>• Estimativa de implantação do terreno: <strong>~900 m²</strong> (a confirmar na Câmara)</div>
                     <div>• Custo de construção de referência: <strong>{costPerM2} €/m²</strong></div>
                     <div>• Terreno livre para jardim e piscina: <strong>~{gardenRemaining} m²</strong></div>
                     <div>• Taxa reduzida de IVA (6%) aplicável conforme as condições legais em vigor</div>
@@ -225,6 +226,7 @@ export default function CalculatorSection() {
                 </div>
 
                 <div className="p-3 rounded-xl bg-[#f8faf8] border border-[#0d382c]/10 text-xs text-[#0d382c]/85 space-y-1">
+                  <div>• Implantação estimada do terreno: <strong>~900 m²</strong> (a confirmar na Câmara)</div>
                   <div>• Custo de solo por moradia: <strong>{landPerUnit.toLocaleString('pt-PT')} €</strong></div>
                   <div>• Frente autónoma por casa: <strong>{frontagePerUnit} m</strong></div>
                   <div>• Terreno por habitação: <strong>{areaPerUnit} m²</strong></div>

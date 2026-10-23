@@ -27,9 +27,9 @@ const faqs: FAQItem[] = [
   {
     id: "01",
     category: "Viabilidade Urbanística",
-    question: "O terreno permite construir? Como funciona a aprovação?",
-    answer: `O terreno poderá permitir construção, consoante a classificação do solo e os parâmetros definidos no PDM de Oliveira do Bairro. Qualquer projeto carece de apreciação e licenciamento municipal, e a viabilidade final só fica confirmada pela Câmara.${fonte}`,
-    note: "Recomenda-se validar os parâmetros aplicáveis junto da Câmara Municipal antes de avançar."
+    question: "O terreno permite construir? Qual a área de implantação estimada?",
+    answer: `O terreno poderá permitir construção com uma estimativa efetuada para a área de implantação de cerca de 900 m², tendo que ser confirmada junto à Câmara Municipal de Oliveira do Bairro. Qualquer projeto carece de apreciação e licenciamento municipal, e a viabilidade final só fica confirmada pela autarquia.${fonte}`,
+    note: "A estimativa efetuada de implantação de ~900 m² deve ser confirmada junto dos serviços municipais."
   },
   {
     id: "02",

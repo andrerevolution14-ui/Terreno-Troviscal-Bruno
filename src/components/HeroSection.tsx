@@ -59,7 +59,7 @@ export default function HeroSection() {
         </div>
 
         <p className="mt-2.5 text-xs sm:text-sm text-slate-100 max-w-2xl mx-auto font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-          Terreno plano no Troviscal, Oliveira do Bairro. 50.000 € para moradia familiar ou projeto de várias moradias, sujeito a validação urbanística no PDM.
+          Terreno plano no Troviscal, Oliveira do Bairro. Estimativa de implantação de ~900 m² (a confirmar junto à Câmara). 50.000 € para moradia familiar ou projeto de várias moradias, sujeito a validação urbanística no PDM.
         </p>
 
         {/* 4 Cartões Pré-Scroll em Branco Puro com Alto Contraste */}
@@ -67,7 +67,7 @@ export default function HeroSection() {
           <div className="p-3.5 sm:p-4 rounded-2xl bg-white text-[#0d382c] border border-white text-center shadow-2xl transform hover:-translate-y-0.5 transition-transform duration-200">
             <div className="text-[10px] uppercase tracking-wider text-[#0f4c3a] font-bold">Área Total</div>
             <div className="text-lg sm:text-2xl font-black text-[#0d382c] mt-0.5">1.474,50 m²</div>
-            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Espaço amplo</span>
+            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Implantação est. ~900 m²*</span>
           </div>
 
           <div className="p-3.5 sm:p-4 rounded-2xl bg-white text-[#0d382c] border border-white text-center shadow-2xl transform hover:-translate-y-0.5 transition-transform duration-200">
@@ -94,6 +94,10 @@ export default function HeroSection() {
             </span>
           </div>
         </div>
+
+        <p className="mt-3 text-[11px] text-emerald-100/90 font-medium drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
+          * A estimativa efetuada para a área de implantação é de 900 m², tendo que ser confirmada junto à Câmara Municipal.
+        </p>
 
         {/* Ações: formulário e WhatsApp */}
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">

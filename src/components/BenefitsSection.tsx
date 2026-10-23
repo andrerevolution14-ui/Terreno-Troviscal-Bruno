@@ -27,8 +27,8 @@ export default function BenefitsSection() {
     {
       icon: Maximize2,
       tag: "1.474,50 m²",
-      title: "Área Ampla",
-      desc: "Espaço generoso para moradia com piscina ou projeto de loteamento."
+      title: "Área Ampla & Implantação",
+      desc: "Espaço com estimativa de ~900 m² de implantação (a confirmar junto à Câmara), ideal para moradia ampla ou loteamento."
     },
     {
       icon: Layers,

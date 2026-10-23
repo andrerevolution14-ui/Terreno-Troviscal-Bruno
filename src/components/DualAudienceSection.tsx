@@ -24,7 +24,7 @@ export default function DualAudienceSection() {
             Moradia Familiar ou Projeto de 3 a 4 Moradias
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-[#0d382c]/80 max-w-xl mx-auto">
-            A frente de 38 m e os 1.474,50 m² planos permitem equacionar ambos os perfis, sujeito a validação urbanística.
+            A frente de 38 m, os 1.474,50 m² planos e a estimativa de implantação de 900 m² (a confirmar na Câmara) permitem equacionar ambos os perfis, sujeito a validação urbanística.
           </p>
         </div>
 
@@ -55,10 +55,14 @@ export default function DualAudienceSection() {
               </div>
 
               <p className="text-xs sm:text-sm text-[#0d382c]/80 mb-5 leading-relaxed">
-                Possibilidade de construir uma moradia térrea ou de 2 pisos, com piscina e quintal privativo, perto de escolas e comércio. A implantação depende do projeto e da aprovação municipal.
+                Possibilidade de construir uma moradia térrea ou de 2 pisos, com piscina e quintal privativo, perto de escolas e comércio. A estimativa efetuada para a área de implantação do terreno é de 900 m², tendo que ser confirmada junto à Câmara Municipal.
               </p>
 
               <ul className="space-y-2.5 text-xs text-[#0d382c]/90 mb-6">
+                <li className="flex items-start gap-2">
+                  <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <span><strong>Área de implantação estimada:</strong> ~900 m² (estimativa efetuada, a confirmar na Câmara)</span>
+                </li>
                 <li className="flex items-start gap-2">
                   <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                   <span><strong>38 m de frente:</strong> possibilidade de portão duplo e entrada pedonal</span>
@@ -115,6 +119,10 @@ export default function DualAudienceSection() {
               </p>
 
               <ul className="space-y-2.5 text-xs text-[#0d382c]/90 mb-6">
+                <li className="flex items-start gap-2">
+                  <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <span><strong>Área de implantação:</strong> estimativa de ~900 m² (a confirmar junto à Câmara), conferindo grande flexibilidade</span>
+                </li>
                 <li className="flex items-start gap-2">
                   <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                   <span><strong>Custo de solo por fração:</strong> cerca de 12.500 € a 16.600 €</span>
