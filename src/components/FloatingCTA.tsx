@@ -53,7 +53,7 @@ export default function FloatingCTA() {
             className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-xs sm:text-sm font-extrabold uppercase tracking-wider bg-[#1f9d55] hover:bg-[#188046] text-white transition-colors whitespace-nowrap"
           >
             <MessageCircle className="h-4 w-4" aria-hidden="true" />
-            <span>WhatsApp</span>
+            <span>Falar com o Dono</span>
           </a>
         )}
       </div>

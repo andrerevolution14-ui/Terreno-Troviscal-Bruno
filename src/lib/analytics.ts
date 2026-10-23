@@ -11,55 +11,30 @@ export const WHATSAPP_NUMBER = (
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '351920601070'
 ).replace(/\D/g, '');
 
-/** Mensagem predefinida aberta e abrangente de acordo com os objetivos da landing page */
+/** Mensagem direta predefinida para falar com o dono */
 export const DEFAULT_WHATSAPP_MESSAGE =
-  'Olá! Vi o terreno no Troviscal (Oliveira do Bairro) de 1.474 m² no site e gostaria de obter mais informações sobre a viabilidade, agendamento de visita e condições. Obrigado!';
+  'Olá! Vi o terreno no Troviscal de 1.474 m² e gostaria de falar com o dono para obter mais informações e agendar uma visita. Obrigado!';
 
 /**
- * Mensagens pré-preparadas para cada objetivo específico da landing page:
- * - Geral / Condições & Preço (50.000 €)
- * - Moradia Familiar Própria (espaço, implantação)
- * - Investimento / Fracionamento / Construtor (IVA a 6%)
- * - Agendar Visita Presencial
+ * Mensagens pré-preparadas mantidas para retrocompatibilidade
  */
 export const WHATSAPP_OBJECTIVES: Record<
   string,
   { label: string; shortTitle: string; icon: string; text: string }
 > = {
   geral: {
-    label: 'Informações Gerais & Condições',
-    shortTitle: 'Dúvidas Gerais',
+    label: 'Falar com o Dono',
+    shortTitle: 'Falar com o Dono',
     icon: '💬',
-    text: 'Olá! Vi o terreno no Troviscal (Oliveira do Bairro) de 1.474 m² no site e gostaria de obter mais informações sobre a viabilidade, agendamento de visita e condições. Obrigado!',
-  },
-  moradia: {
-    label: 'Construção de Moradia Própria (Família)',
-    shortTitle: 'Moradia Própria',
-    icon: '🏡',
-    text: 'Olá! Tenho interesse no terreno de 1.474 m² no Troviscal para construir moradia própria familiar. Gostaria de saber mais sobre a viabilidade de construção e implantação no lote. Obrigado!',
-  },
-  investimento: {
-    label: 'Investimento / Várias Moradias (IVA 6%)',
-    shortTitle: 'Investimento',
-    icon: '📈',
-    text: 'Olá! Gostaria de falar sobre o potencial de investimento e construção no terreno do Troviscal (1.474 m² e 38 m de frente com viabilidade no PDM). Obrigado!',
-  },
-  visita: {
-    label: 'Agendar Visita ao Terreno',
-    shortTitle: 'Agendar Visita',
-    icon: '📅',
-    text: 'Olá! Gostaria de agendar uma visita ao terreno de 1.474 m² no Troviscal (Oliveira do Bairro) para conhecer o local presencialmente. Obrigado!',
+    text: DEFAULT_WHATSAPP_MESSAGE,
   },
 };
 
 export const WHATSAPP_MESSAGE = DEFAULT_WHATSAPP_MESSAGE;
 
-export function getWhatsAppUrl(objectiveKey?: string): string {
+export function getWhatsAppUrl(_objectiveKey?: string): string {
   const phone = WHATSAPP_NUMBER || '351920601070';
-  const message =
-    (objectiveKey && WHATSAPP_OBJECTIVES[objectiveKey]?.text) ||
-    DEFAULT_WHATSAPP_MESSAGE;
-  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  return `https://wa.me/${phone}?text=${encodeURIComponent(DEFAULT_WHATSAPP_MESSAGE)}`;
 }
 
 declare global {
