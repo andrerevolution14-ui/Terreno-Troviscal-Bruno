@@ -87,7 +87,7 @@ export async function POST(request: Request) {
       telefone,
       horario_contacto: horario_contacto ? String(horario_contacto).trim() : '',
       data_visita: data_visita ? String(data_visita).trim() : '',
-      tipo_interesse: rawTipoInteresse || 'Quero ser contactado',
+      tipo_interesse: rawTipoInteresse || 'Falar com o promotor',
       origem: rawOrigem || 'Landing Page Terreno Troviscal',
       perfil,
       financiamento,

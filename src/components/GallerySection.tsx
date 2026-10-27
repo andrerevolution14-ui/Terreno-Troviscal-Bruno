@@ -208,7 +208,7 @@ export default function GallerySection() {
                 }}
                 className="w-full sm:w-auto px-6 py-2 rounded-full text-xs uppercase font-bold text-[#062319] bg-[#c5a869] hover:bg-[#dfc282] cursor-pointer"
               >
-                Marcar Visita
+                Falar com o promotor
               </button>
             </div>
 

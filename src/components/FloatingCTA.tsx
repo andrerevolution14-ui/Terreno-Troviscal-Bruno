@@ -41,7 +41,7 @@ export default function FloatingCTA() {
           className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-xs sm:text-sm font-extrabold uppercase tracking-wider gold-btn cursor-pointer whitespace-nowrap"
         >
           <CalendarCheck className="h-4 w-4" aria-hidden="true" />
-          <span>Visitar terreno</span>
+          <span>Falar com o promotor</span>
         </button>
 
         {whatsappUrl && (
@@ -52,7 +52,7 @@ export default function FloatingCTA() {
             className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full text-xs sm:text-sm font-extrabold uppercase tracking-wider bg-[#1f9d55] hover:bg-[#188046] text-white transition-colors whitespace-nowrap"
           >
             <MessageCircle className="h-4 w-4" aria-hidden="true" />
-            <span>Falar com o Dono</span>
+            <span>Falar por WhatsApp</span>
           </a>
         )}
       </div>

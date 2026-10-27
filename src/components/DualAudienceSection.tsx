@@ -86,7 +86,7 @@ export default function DualAudienceSection() {
               onClick={scrollToForm}
               className="w-full py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn transition-all cursor-pointer flex items-center justify-center gap-2"
             >
-              <span>Quero ser contactado</span>
+              <span>Falar com o promotor</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
@@ -146,7 +146,7 @@ export default function DualAudienceSection() {
               onClick={scrollToForm}
               className="w-full py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn transition-all cursor-pointer flex items-center justify-center gap-2"
             >
-              <span>Quero ser contactado</span>
+              <span>Falar com o promotor</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>

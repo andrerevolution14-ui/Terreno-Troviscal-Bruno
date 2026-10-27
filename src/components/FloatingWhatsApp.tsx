@@ -10,7 +10,7 @@ export default function FloatingWhatsApp() {
     <div
       className="fixed right-4 sm:right-6 bottom-20 sm:bottom-6 z-50 flex items-center select-none pointer-events-auto"
       role="complementary"
-      aria-label="Contacto direto via WhatsApp com o dono"
+      aria-label="Contacto direto via WhatsApp"
     >
       <div className="relative flex items-center group">
         {/* Radar Ring Pulsante */}
@@ -23,7 +23,7 @@ export default function FloatingWhatsApp() {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Falar com o dono no WhatsApp"
+          aria-label="Falar por WhatsApp"
           className="relative inline-flex items-center gap-2.5 pl-3.5 pr-4 py-2.5 sm:py-3 rounded-full bg-gradient-to-r from-[#1f9d55] via-[#25D366] to-[#128C7E] hover:from-[#188046] hover:via-[#20ba5a] hover:to-[#0f7568] text-white font-bold shadow-[0_8px_25px_rgba(37,211,102,0.45)] hover:shadow-[0_12px_32px_rgba(37,211,102,0.6)] border border-white/25 transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer"
         >
           {/* Ícone Oficial WhatsApp Vetorial SVG */}
@@ -45,7 +45,7 @@ export default function FloatingWhatsApp() {
           {/* Rótulo de Texto com Design Elegante */}
           <div className="flex flex-col text-left leading-tight">
             <span className="text-xs sm:text-sm font-extrabold uppercase tracking-wider drop-shadow-sm">
-              Falar com o Dono
+              Falar por WhatsApp
             </span>
             <span className="text-[10px] text-emerald-100 flex items-center gap-1 font-semibold opacity-90">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-300" />

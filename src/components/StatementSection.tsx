@@ -47,7 +47,7 @@ export default function StatementSection() {
             onClick={() => scrollTo('formulario')}
             className="px-8 py-3.5 rounded-full text-xs uppercase tracking-[0.16em] font-semibold text-[#062319] bg-[#c5a869] hover:bg-[#dfc282] shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer"
           >
-            Agendar Visita ao Troviscal
+            Falar com o promotor
           </button>
         </div>
 

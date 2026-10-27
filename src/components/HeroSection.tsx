@@ -106,7 +106,7 @@ export default function HeroSection() {
             onClick={scrollToForm}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-9 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn shadow-2xl transition-all duration-200 cursor-pointer hover:scale-105"
           >
-            <span>Quero ser contactado</span>
+            <span>Falar com o promotor</span>
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </button>
           <WhatsAppButton origem="hero" className="w-full sm:w-auto py-3.5 shadow-2xl" />

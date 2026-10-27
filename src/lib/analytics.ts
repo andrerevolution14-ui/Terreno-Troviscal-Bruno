@@ -11,9 +11,9 @@ export const WHATSAPP_NUMBER = (
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '351920601070'
 ).replace(/\D/g, '');
 
-/** Mensagem direta predefinida para falar com o dono */
+/** Mensagem direta predefinida para falar com o promotor */
 export const DEFAULT_WHATSAPP_MESSAGE =
-  'Olá! Vi o terreno no Troviscal de 1.474 m² e gostaria de falar com o dono para obter mais informações e agendar uma visita. Obrigado!';
+  'Olá! Vi o terreno no Troviscal de 1.474 m² e gostaria de falar com o promotor para obter mais informações e agendar uma visita. Obrigado!';
 
 /**
  * Mensagens pré-preparadas mantidas para retrocompatibilidade
@@ -23,8 +23,8 @@ export const WHATSAPP_OBJECTIVES: Record<
   { label: string; shortTitle: string; icon: string; text: string }
 > = {
   geral: {
-    label: 'Falar com o Dono',
-    shortTitle: 'Falar com o Dono',
+    label: 'Falar por WhatsApp',
+    shortTitle: 'Falar por WhatsApp',
     icon: '💬',
     text: DEFAULT_WHATSAPP_MESSAGE,
   },

@@ -41,7 +41,7 @@ export default function Home() {
       {/* 8. Objeções & Prazos Camarários (3 a 6 meses) */}
       <ObjectionsSection />
 
-      {/* 9. Formulário Direto "Quero ser contactado" (Integrado com Neon Postgres) */}
+      {/* 9. Formulário Direto "Falar com o promotor" (Integrado com Neon Postgres) */}
       <LeadForm />
 
       {/* 10. Pílula Flutuante Otimizada com Acabamento Glassmorphism */}

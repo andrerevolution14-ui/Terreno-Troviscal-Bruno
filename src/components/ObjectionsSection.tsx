@@ -122,13 +122,13 @@ export default function ObjectionsSection() {
           ))}
         </div>
 
-        {/* CTA: "Quero ser contactado" */}
+        {/* CTA: "Falar com o promotor" */}
         <div className="mt-8 text-center">
           <button
             onClick={scrollToForm}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn shadow-md transition-all cursor-pointer"
           >
-            <span>Quero ser contactado</span>
+            <span>Falar com o promotor</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>

@@ -21,27 +21,6 @@ const PRESET_HORARIOS = [
   'Fim do dia (18h - 20h)',
 ];
 
-const PERFIS = [
-  { value: 'familia', label: 'Moradia familiar' },
-  { value: 'investidor', label: 'Investidor / promotor' },
-];
-
-const FINANCIAMENTOS = [
-  { value: 'sim', label: 'Sim, preciso de financiamento' },
-  { value: 'nao', label: 'Não preciso' },
-  { value: 'a_avaliar', label: 'Ainda a avaliar' },
-];
-
-const PRAZOS = [
-  { value: 'imediato', label: 'Imediato' },
-  { value: 'ate_3_meses', label: 'Até 3 meses' },
-  { value: '3_a_6_meses', label: '3 a 6 meses' },
-  { value: 'mais_6_meses', label: 'Mais de 6 meses' },
-];
-
-const SELECT_CLASS =
-  'w-full px-3.5 py-2.5 rounded-xl bg-[#f8faf8] border border-[#0d382c]/20 text-[#0d382c] text-xs sm:text-sm focus:outline-none focus:border-[#0f4c3a] focus:ring-1 focus:ring-[#0f4c3a] transition-colors';
-
 function getCleanDigits(phone: string): string {
   let digits = phone.replace(/\D/g, '');
   if (digits.startsWith('00351')) {
@@ -54,16 +33,6 @@ export default function LeadForm() {
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
   const [horarioContacto, setHorarioContacto] = useState('');
-  const [perfil, setPerfil] = useState('');
-  const [financiamento, setFinanciamento] = useState('');
-  const [prazo, setPrazo] = useState('');
-
-  // Pré-seleciona o perfil escolhido no simulador
-  useEffect(() => {
-    const handler = (e: Event) => setPerfil((e as CustomEvent<string>).detail);
-    window.addEventListener('simulador:perfil', handler);
-    return () => window.removeEventListener('simulador:perfil', handler);
-  }, []);
   
   // Estados de submissão e confirmação
   const [isConfirmingPhone, setIsConfirmingPhone] = useState(false);
@@ -122,9 +91,6 @@ export default function LeadForm() {
           nome: nome.trim(),
           telefone: telefone.trim(),
           horario_contacto: horarioContacto.trim(),
-          perfil,
-          financiamento,
-          prazo,
           eventId,
           fbp,
           fbc,
@@ -141,9 +107,6 @@ export default function LeadForm() {
       // Evento Lead: apenas após envio com sucesso (eventId partilhado com a CAPI)
       trackFormSubmissionLead({
         eventId: data.eventId || eventId,
-        perfil,
-        financiamento,
-        prazo,
       });
 
       setIsConfirmingPhone(false);
@@ -169,7 +132,7 @@ export default function LeadForm() {
             Contacto Direto • 50.000 € (Negociável)
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0d382c] tracking-tight">
-            Quero ser contactado
+            Falar com o promotor
           </h2>
           <p className="mt-1.5 text-xs sm:text-sm text-[#0d382c]/80">
             Deixe os seus dados para receber todos os detalhes do terreno de 1.474,50 m² e agendar visita.
@@ -237,8 +200,6 @@ export default function LeadForm() {
                   setNome('');
                   setTelefone('');
                   setHorarioContacto('');
-                  setFinanciamento('');
-                  setPrazo('');
                 }}
                 className="text-xs font-bold uppercase tracking-wider text-[#0f4c3a] hover:underline cursor-pointer"
               >
@@ -378,51 +339,20 @@ export default function LeadForm() {
                 </span>
               </div>
 
-              {/* Perfil, financiamento e prazo (opcionais) */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div>
-                  <label htmlFor="lead-perfil" className="block text-xs font-bold text-[#0d382c] mb-1">
-                    Perfil <span className="font-normal text-[#0d382c]/60">(opcional)</span>
-                  </label>
-                  <select id="lead-perfil" name="perfil" value={perfil} onChange={(e) => setPerfil(e.target.value)} className={SELECT_CLASS}>
-                    <option value="">Selecionar</option>
-                    {PERFIS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="lead-financiamento" className="block text-xs font-bold text-[#0d382c] mb-1">
-                    Financiamento <span className="font-normal text-[#0d382c]/60">(opcional)</span>
-                  </label>
-                  <select id="lead-financiamento" name="financiamento" value={financiamento} onChange={(e) => setFinanciamento(e.target.value)} className={SELECT_CLASS}>
-                    <option value="">Selecionar</option>
-                    {FINANCIAMENTOS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="lead-prazo" className="block text-xs font-bold text-[#0d382c] mb-1">
-                    Prazo <span className="font-normal text-[#0d382c]/60">(opcional)</span>
-                  </label>
-                  <select id="lead-prazo" name="prazo" value={prazo} onChange={(e) => setPrazo(e.target.value)} className={SELECT_CLASS}>
-                    <option value="">Selecionar</option>
-                    {PRAZOS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-                  </select>
-                </div>
-              </div>
-
               {/* Campo Opcional: Melhor Hora para Contacto */}
               <div>
-                <label htmlFor="lead-horario" className="block text-xs font-bold text-[#0d382c] mb-1">
+                <label className="block text-xs font-bold text-[#0d382c] mb-1.5">
                   Melhor hora para contacto <span className="font-normal text-[#0d382c]/60">(Opcional)</span>
                 </label>
 
                 {/* Botões Rápidos de Seleção */}
-                <div className="flex flex-wrap gap-1.5 mb-2">
+                <div className="flex flex-wrap gap-1.5">
                   {PRESET_HORARIOS.map((preset) => (
                     <button
                       key={preset}
                       type="button"
-                      onClick={() => setHorarioContacto(preset)}
-                      className={`text-[11px] px-2.5 py-1 rounded-lg border transition-all cursor-pointer ${
+                      onClick={() => setHorarioContacto(horarioContacto === preset ? '' : preset)}
+                      className={`text-[11px] px-2.5 py-1.5 rounded-lg border transition-all cursor-pointer ${
                         horarioContacto === preset
                           ? 'bg-[#0f4c3a] text-white border-[#0f4c3a] font-bold shadow-xs'
                           : 'bg-[#f8faf8] text-[#0d382c]/80 border-[#0d382c]/20 hover:border-[#0f4c3a]/50'
@@ -432,16 +362,6 @@ export default function LeadForm() {
                     </button>
                   ))}
                 </div>
-
-                {/* Input com texto livre para máxima flexibilidade */}
-                <input
-                  id="lead-horario"
-                  type="text"
-                  placeholder="Ex: Tarde a partir das 16h, Sábado de manhã..."
-                  value={horarioContacto}
-                  onChange={(e) => setHorarioContacto(e.target.value)}
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#f8faf8] border border-[#0d382c]/20 text-[#0d382c] text-xs sm:text-sm focus:outline-none focus:border-[#0f4c3a] focus:ring-1 focus:ring-[#0f4c3a] transition-colors"
-                />
               </div>
 
               {/* Submit CTA */}
@@ -450,7 +370,7 @@ export default function LeadForm() {
                   type="submit"
                   className="w-full py-3.5 px-6 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
-                  <span>Quero ser contactado</span>
+                  <span>Falar com o promotor</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
