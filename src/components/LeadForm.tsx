@@ -129,13 +129,13 @@ export default function LeadForm() {
         {/* Header com Destaque de Preço 50.000€ */}
         <div className="text-center mb-8">
           <span className="text-[11px] uppercase tracking-wider text-[#0f4c3a] font-bold block mb-1">
-            Contacto Direto • 50.000 € (Negociável)
+            Sem compromisso, resposta rápida • 50.000 € (Negociável)
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0d382c] tracking-tight">
-            Falar com o promotor
+            Verificar disponibilidade
           </h2>
           <p className="mt-1.5 text-xs sm:text-sm text-[#0d382c]/80">
-            Deixe os seus dados para receber todos os detalhes do terreno de 1.474,50 m² e agendar visita.
+            Deixe o seu contacto para confirmar a disponibilidade do terreno e receber informações, sem compromisso.
           </p>
         </div>
 
@@ -365,12 +365,15 @@ export default function LeadForm() {
               </div>
 
               {/* Submit CTA */}
-              <div className="pt-2">
+              <div className="pt-2 text-center">
+                <span className="text-[11px] text-[#0f4c3a] font-semibold block mb-1.5">
+                  Sem compromisso, resposta rápida.
+                </span>
                 <button
                   type="submit"
                   className="w-full py-3.5 px-6 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
-                  <span>Falar com o promotor</span>
+                  <span>Confirmar disponibilidade</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>

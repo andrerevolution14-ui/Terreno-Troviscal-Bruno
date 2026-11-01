@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { trackViewContent } from '@/lib/analytics';
 
 export default function CalculatorSection() {
-  const sectionRef = useRef<HTMLElement | null>(null);
   const [profile, setProfileState] = useState<'familia' | 'investidor'>('familia');
 
   const setProfile = (p: 'familia' | 'investidor') => {
@@ -13,23 +11,6 @@ export default function CalculatorSection() {
     // Partilha o perfil escolhido com o formulário (pré-seleção)
     window.dispatchEvent(new CustomEvent('simulador:perfil', { detail: p }));
   };
-
-  // ViewContent: apenas uma vez, quando a secção do simulador entra no ecrã
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          trackViewContent();
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
   
   // Investor state
   const [units, setUnits] = useState<number>(3);
@@ -60,7 +41,7 @@ export default function CalculatorSection() {
   };
 
   return (
-    <section ref={sectionRef} id="calculadora" className="py-12 sm:py-16 bg-[#f8faf8] text-[#0d382c] border-b border-[#e2ece6]">
+    <section id="calculadora" className="py-12 sm:py-16 bg-[#f8faf8] text-[#0d382c] border-b border-[#e2ece6]">
       <div className="max-w-5xl mx-auto px-4 sm:px-8">
         
         {/* Header */}
@@ -174,12 +155,15 @@ export default function CalculatorSection() {
                 </div>
               </div>
 
-              <div className="mt-6">
+              <div className="mt-6 text-center">
+                <span className="text-[11px] text-emerald-100 font-medium block mb-1.5">
+                  Sem compromisso, resposta rápida.
+                </span>
                 <button
                   onClick={scrollToForm}
                   className="w-full py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-wider gold-btn shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
-                  <span>Falar com o promotor</span>
+                  <span>Verificar disponibilidade</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
@@ -256,12 +240,15 @@ export default function CalculatorSection() {
                 </div>
               </div>
 
-              <div className="mt-6">
+              <div className="mt-6 text-center">
+                <span className="text-[11px] text-emerald-100 font-medium block mb-1.5">
+                  Sem compromisso, resposta rápida.
+                </span>
                 <button
                   onClick={scrollToForm}
                   className="w-full py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-wider gold-btn shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
-                  <span>Falar com o promotor</span>
+                  <span>Verificar disponibilidade</span>
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>

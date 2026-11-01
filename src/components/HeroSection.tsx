@@ -3,7 +3,6 @@
 import React from 'react';
 import Image from 'next/image';
 import { Percent, ArrowRight } from 'lucide-react';
-import WhatsAppButton from '@/components/WhatsAppButton';
 
 export default function HeroSection() {
   const scrollToForm = () => {
@@ -23,6 +22,7 @@ export default function HeroSection() {
           alt="Vista panorâmica do terreno no Troviscal com 1.474,50 m²"
           fill
           priority
+          quality={75}
           sizes="100vw"
           className="object-cover object-center"
         />
@@ -99,17 +99,19 @@ export default function HeroSection() {
           * A estimativa efetuada para a área de implantação é de 900 m², tendo que ser confirmada junto à Câmara Municipal.
         </p>
 
-        {/* Ações: formulário e WhatsApp */}
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+        {/* CTA Única */}
+        <div className="mt-8 flex flex-col items-center justify-center gap-2">
+          <span className="text-[11px] sm:text-xs text-emerald-100 font-semibold tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
+            Sem compromisso, resposta rápida.
+          </span>
           <button
             type="button"
             onClick={scrollToForm}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-9 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn shadow-2xl transition-all duration-200 cursor-pointer hover:scale-105"
           >
-            <span>Falar com o promotor</span>
+            <span>Verificar disponibilidade</span>
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </button>
-          <WhatsAppButton origem="hero" className="w-full sm:w-auto py-3.5 shadow-2xl" />
         </div>
 
       </div>

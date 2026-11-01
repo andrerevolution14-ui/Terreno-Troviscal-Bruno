@@ -136,13 +136,16 @@ export default function GallerySection() {
         </div>
 
         {/* Gallery CTA */}
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center flex flex-col items-center gap-1.5">
+          <span className="text-[11px] sm:text-xs text-[#d1e0d7] font-semibold">
+            Sem compromisso, resposta rápida.
+          </span>
           <button
             onClick={scrollToForm}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider text-[#062319] bg-[#c5a869] hover:bg-[#dfc282] shadow-md transition-all cursor-pointer"
           >
             <CalendarCheck className="h-4 w-4" />
-            <span>Marcar Visita ao Terreno</span>
+            <span>Verificar disponibilidade</span>
           </button>
         </div>
 
@@ -208,7 +211,7 @@ export default function GallerySection() {
                 }}
                 className="w-full sm:w-auto px-6 py-2 rounded-full text-xs uppercase font-bold text-[#062319] bg-[#c5a869] hover:bg-[#dfc282] cursor-pointer"
               >
-                Falar com o promotor
+                Verificar disponibilidade
               </button>
             </div>
 

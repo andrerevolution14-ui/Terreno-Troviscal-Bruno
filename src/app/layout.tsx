@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     siteName: "Terreno Troviscal",
     images: [
       {
-        url: "/images/frente.png",
+        url: "/images/frente.webp",
         width: 1200,
         height: 630,
         alt: "Terreno Urbano no Troviscal",

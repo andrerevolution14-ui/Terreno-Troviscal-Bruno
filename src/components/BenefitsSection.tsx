@@ -98,12 +98,15 @@ export default function BenefitsSection() {
         </div>
 
         {/* CTA */}
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center flex flex-col items-center gap-1.5">
+          <span className="text-[11px] sm:text-xs text-[#0f4c3a] font-semibold">
+            Sem compromisso, resposta rápida.
+          </span>
           <button
             onClick={scrollToForm}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn shadow-md transition-all cursor-pointer"
           >
-            <span>Falar com o promotor</span>
+            <span>Verificar disponibilidade</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>

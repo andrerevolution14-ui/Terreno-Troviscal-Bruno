@@ -60,14 +60,6 @@ export default function ImageLibrarySection() {
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
-  // Pré-carregamento imediato de todas as imagens em cache no momento da montagem
-  useEffect(() => {
-    photos.forEach((photo) => {
-      const img = new window.Image();
-      img.src = photo.src;
-    });
-  }, []);
-
   const openLightbox = (index: number) => {
     setCurrentIndex(index);
     setScale(1);
@@ -180,10 +172,10 @@ export default function ImageLibrarySection() {
                 src={item.src}
                 alt={item.alt}
                 fill
+                loading="lazy"
+                quality={75}
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 420px"
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-300 ease-out"
-                priority={index < 4}
-                unoptimized
               />
 
               {/* Botão interativo no hover */}
@@ -260,38 +252,29 @@ export default function ImageLibrarySection() {
               </div>
             </div>
 
-            {/* Viewport: Multi-Image Pre-Rendered Stack para Transição Instantânea (0ms de atraso) */}
+            {/* Viewport: Renderiza apenas a imagem ativa */}
             <div 
               className="relative flex-1 w-full bg-black/80 flex items-center justify-center overflow-hidden touch-pan-y"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
             >
-              {photos.map((photo, index) => {
-                const isSelected = index === currentIndex;
-                return (
-                  <div
-                    key={photo.id}
-                    className={`absolute inset-0 flex items-center justify-center transition-opacity duration-150 ease-out ${
-                      isSelected ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
-                    }`}
-                    style={{
-                      transform: isSelected ? `scale(${scale})` : 'scale(1)',
-                      transition: 'opacity 120ms ease-out, transform 150ms ease-out',
-                    }}
-                  >
-                    <Image
-                      src={photo.src}
-                      alt={photo.alt}
-                      fill
-                      sizes="100vw"
-                      className="object-contain p-2 sm:p-4 select-none"
-                      priority
-                      unoptimized
-                    />
-                  </div>
-                );
-              })}
+              <div
+                className="absolute inset-0 flex items-center justify-center z-10"
+                style={{
+                  transform: `scale(${scale})`,
+                  transition: 'transform 150ms ease-out',
+                }}
+              >
+                <Image
+                  src={activePhoto.src}
+                  alt={activePhoto.alt}
+                  fill
+                  quality={82}
+                  sizes="100vw"
+                  className="object-contain p-2 sm:p-4 select-none"
+                />
+              </div>
 
               {/* Botão Anterior */}
               <button
@@ -340,9 +323,10 @@ export default function ImageLibrarySection() {
                         src={thumb.src}
                         alt=""
                         fill
+                        loading="lazy"
+                        quality={65}
                         sizes="64px"
                         className="object-cover"
-                        unoptimized
                       />
                     </button>
                   );

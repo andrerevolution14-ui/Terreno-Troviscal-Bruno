@@ -81,14 +81,6 @@ export default function DualAudienceSection() {
                 </li>
               </ul>
             </div>
-
-            <button
-              onClick={scrollToForm}
-              className="w-full py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn transition-all cursor-pointer flex items-center justify-center gap-2"
-            >
-              <span>Falar com o promotor</span>
-              <ArrowRight className="h-4 w-4" />
-            </button>
           </div>
 
           {/* CARD 2: INVESTIDOR */}
@@ -118,7 +110,7 @@ export default function DualAudienceSection() {
                 Hipótese de divisão em banda ou geminadas, com frentes de 9,5 m a 12,6 m por habitação. Depende das regras do PDM e pode exigir operação de loteamento.
               </p>
 
-              <ul className="space-y-2.5 text-xs text-[#0d382c]/90 mb-6">
+              <ul className="space-y-2.5 text-xs text-[#0d382c]/90">
                 <li className="flex items-start gap-2">
                   <Check className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                   <span><strong>Área de implantação:</strong> estimativa de ~900 m² (a confirmar junto à Câmara), conferindo grande flexibilidade</span>
@@ -141,16 +133,22 @@ export default function DualAudienceSection() {
                 </li>
               </ul>
             </div>
-
-            <button
-              onClick={scrollToForm}
-              className="w-full py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn transition-all cursor-pointer flex items-center justify-center gap-2"
-            >
-              <span>Falar com o promotor</span>
-              <ArrowRight className="h-4 w-4" />
-            </button>
           </div>
 
+        </div>
+
+        {/* Single Section CTA */}
+        <div className="mt-8 text-center flex flex-col items-center gap-1.5">
+          <span className="text-[11px] sm:text-xs text-[#0f4c3a] font-semibold">
+            Sem compromisso, resposta rápida.
+          </span>
+          <button
+            onClick={scrollToForm}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn shadow-md transition-all cursor-pointer"
+          >
+            <span>Verificar disponibilidade</span>
+            <ArrowRight className="h-4 w-4" />
+          </button>
         </div>
 
       </div>

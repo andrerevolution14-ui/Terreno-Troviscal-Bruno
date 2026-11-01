@@ -11,28 +11,27 @@ import CalculatorSection from '@/components/CalculatorSection';
 import ObjectionsSection from '@/components/ObjectionsSection';
 import LeadForm from '@/components/LeadForm';
 import FloatingCTA from '@/components/FloatingCTA';
-import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col bg-[#0d382c] text-[#f8fafc]">
-      {/* 1. Header Minimalista Direto com Botão Compacto */}
+      {/* 1. Header Minimalista Direto */}
       <Navbar />
 
-      {/* 2. Hero com Primeira Foto (tras.png), Cartões em Branco e sem Botão a Tapar */}
+      {/* 2. Hero */}
       <HeroSection />
 
-      {/* 3. Oportunidade Dual (Família vs Investidor) sem Imagens Repetidas */}
+      {/* 3. Oportunidade Dual (Família vs Investidor) */}
       <DualAudienceSection />
 
       {/* 4. Vantagens Construtivas & Fiscais (IVA a 6%) */}
       <BenefitsSection />
 
-      {/* 5. Livraria Central de Imagens com Ecrã Inteiro, Zoom e Passagem Lateral */}
+      {/* 5. Livraria Central de Imagens */}
       <ImageLibrarySection />
 
-      {/* 6. Localização & Distâncias aos Pontos Principais (Sem Coordenadas) */}
+      {/* 6. Localização & Distâncias aos Pontos Principais */}
       <LocationSection />
 
       {/* 7. Simulador com Valores Baixos Otimizados */}
@@ -41,16 +40,13 @@ export default function Home() {
       {/* 8. Objeções & Prazos Camarários (3 a 6 meses) */}
       <ObjectionsSection />
 
-      {/* 9. Formulário Direto "Falar com o promotor" (Integrado com Neon Postgres) */}
+      {/* 9. Formulário Direto "Saber mais sobre o projeto" */}
       <LeadForm />
 
-      {/* 10. Pílula Flutuante Otimizada com Acabamento Glassmorphism */}
+      {/* 10. Pílula Flutuante Otimizada */}
       <FloatingCTA />
 
-      {/* 11. Botão Flutuante de WhatsApp Aesthetic Sempre Ativo no Canto Inferior */}
-      <FloatingWhatsApp />
-
-      {/* 12. Rodapé */}
+      {/* 11. Rodapé */}
       <Footer />
     </main>
   );

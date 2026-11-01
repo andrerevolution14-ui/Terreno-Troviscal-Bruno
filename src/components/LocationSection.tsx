@@ -1,11 +1,9 @@
 'use client';
 
 import React from 'react';
-import { ExternalLink, Clock, ArrowRight, MapPin } from 'lucide-react';
+import { Clock, ArrowRight, MapPin } from 'lucide-react';
 
 export default function LocationSection() {
-  const googleMapsUrl = "https://www.google.com/maps?q=40.4858420,-8.5488579";
-
   const scrollToForm = () => {
     const el = document.getElementById('formulario');
     if (el) {
@@ -42,10 +40,10 @@ export default function LocationSection() {
         {/* Distâncias e Mapa Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
           
-          {/* Left Column: Distances & Quick Google Maps Button */}
+          {/* Left Column: Distances */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
             
-            {/* Quick Location & Direct Link to Maps */}
+            {/* Quick Location Card (Sem link externo) */}
             <div className="p-4 rounded-2xl bg-white border border-[#0d382c]/15 shadow-sm flex items-center justify-between gap-3">
               <div className="flex items-center gap-2.5">
                 <div className="h-9 w-9 rounded-full bg-emerald-100 text-[#0f4c3a] flex items-center justify-center shrink-0">
@@ -60,16 +58,6 @@ export default function LocationSection() {
                   </span>
                 </div>
               </div>
-
-              <a
-                href={googleMapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shrink-0 inline-flex items-center gap-1.5 py-2 px-3 rounded-xl text-[11px] font-bold uppercase tracking-wider text-white bg-[#0f4c3a] hover:bg-[#135d46] transition-all shadow-xs"
-              >
-                <span>Google Maps</span>
-                <ExternalLink className="h-3 w-3" />
-              </a>
             </div>
 
             {/* Distances Cards in 2 columns */}
@@ -105,6 +93,7 @@ export default function LocationSection() {
                 scrolling="no"
                 marginHeight={0}
                 marginWidth={0}
+                loading="lazy"
                 src="https://maps.google.com/maps?q=40.485842,-8.5488578&t=&z=15&ie=UTF8&iwloc=&output=embed"
                 className="w-full h-full filter saturate-[1.1]"
               />
@@ -114,12 +103,15 @@ export default function LocationSection() {
         </div>
 
         {/* CTA */}
-        <div className="mt-8 text-center">
+        <div className="mt-8 text-center flex flex-col items-center gap-1.5">
+          <span className="text-[11px] sm:text-xs text-[#0f4c3a] font-semibold">
+            Sem compromisso, resposta rápida.
+          </span>
           <button
             onClick={scrollToForm}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn shadow-md transition-all cursor-pointer"
           >
-            <span>Falar com o promotor</span>
+            <span>Verificar disponibilidade</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>

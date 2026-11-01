@@ -17,9 +17,10 @@ export default function StatementSection() {
       {/* Background with soft atmospheric photo */}
       <div className="absolute inset-0 -z-10">
         <Image
-          src="/images/tras-direita.png"
+          src="/images/tras-direita.webp"
           alt="Envolvente natural e arvoredo do terreno no Troviscal"
           fill
+          loading="lazy"
           className="object-cover object-center filter brightness-[0.25] saturate-[0.8]"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#062319]/90 via-[#062319]/80 to-[#062319]" />
@@ -42,12 +43,15 @@ export default function StatementSection() {
           Um terreno com espaço para viver, crescer ou desenvolver um projeto de moradias, sujeito a validação urbanística.
         </p>
 
-        <div className="mt-10">
+        <div className="mt-10 flex flex-col items-center gap-2">
+          <span className="text-xs text-[#d1e0d7] font-medium">
+            Sem compromisso, resposta rápida.
+          </span>
           <button
             onClick={() => scrollTo('formulario')}
             className="px-8 py-3.5 rounded-full text-xs uppercase tracking-[0.16em] font-semibold text-[#062319] bg-[#c5a869] hover:bg-[#dfc282] shadow-xl transition-all duration-300 hover:scale-[1.02] cursor-pointer"
           >
-            Falar com o promotor
+            Verificar disponibilidade
           </button>
         </div>
 
