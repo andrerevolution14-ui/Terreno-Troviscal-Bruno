@@ -112,7 +112,7 @@ export default function LeadForm() {
   };
 
   const handleEditPhone = () => {
-    setIsConfirmingPhone(false);
+    setStatus('idle');
   };
 
   return (
@@ -176,7 +176,6 @@ export default function LeadForm() {
                   <button
                     onClick={() => {
                       setStatus('idle');
-                      setIsConfirmingPhone(false);
                     }}
                     className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-900 hover:text-amber-950 underline decoration-amber-400 hover:decoration-amber-700 cursor-pointer"
                   >
