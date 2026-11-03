@@ -2,13 +2,14 @@
 
 import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useLeadModal } from '@/components/LeadModal';
 
 export default function CalculatorSection() {
+  const { openLeadModal } = useLeadModal();
   const [profile, setProfileState] = useState<'familia' | 'investidor'>('familia');
 
   const setProfile = (p: 'familia' | 'investidor') => {
     setProfileState(p);
-    // Partilha o perfil escolhido com o formulário (pré-seleção)
     window.dispatchEvent(new CustomEvent('simulador:perfil', { detail: p }));
   };
   
@@ -18,7 +19,7 @@ export default function CalculatorSection() {
 
   // Family state
   const [houseArea, setHouseArea] = useState<number>(140);
-  const costPerM2 = 950; // Baixo fixo desde o início
+  const costPerM2 = 950;
 
   const landCost = 50000;
   
@@ -32,13 +33,6 @@ export default function CalculatorSection() {
   const constructionTotal = houseArea * costPerM2;
   const totalFamilyInvestment = landCost + constructionTotal;
   const gardenRemaining = (1474.5 - houseArea).toFixed(0);
-
-  const scrollToForm = () => {
-    const el = document.getElementById('formulario');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <section id="calculadora" className="py-12 sm:py-16 bg-[#f8faf8] text-[#0d382c] border-b border-[#e2ece6]">
@@ -160,7 +154,7 @@ export default function CalculatorSection() {
                   Sem compromisso, resposta rápida.
                 </span>
                 <button
-                  onClick={scrollToForm}
+                  onClick={() => openLeadModal('Simulação de Moradia Familiar · Troviscal')}
                   className="w-full py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-wider gold-btn shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <span>Verificar disponibilidade</span>
@@ -210,7 +204,7 @@ export default function CalculatorSection() {
                 </div>
 
                 <div className="p-3 rounded-xl bg-[#f8faf8] border border-[#0d382c]/10 text-xs text-[#0d382c]/85 space-y-1">
-                  <div>• Implantação estimada do terreno: <strong>~900 m²</strong> (a confirmar na Câmara)</div>
+                  <div>• Implantação disponível do terreno: <strong>até ~900 m²</strong></div>
                   <div>• Custo de solo por moradia: <strong>{landPerUnit.toLocaleString('pt-PT')} €</strong></div>
                   <div>• Frente autónoma por casa: <strong>{frontagePerUnit} m</strong></div>
                   <div>• Terreno por habitação: <strong>{areaPerUnit} m²</strong></div>
@@ -236,7 +230,7 @@ export default function CalculatorSection() {
                 </p>
 
                 <div className="mt-4 p-3 rounded-lg bg-[#0b3327]/80 border border-emerald-400/20 text-xs text-emerald-100">
-                  A viabilidade de dividir o terreno depende das regras do PDM e pode exigir operação de loteamento.
+                  Apoiamos o promotor com os dados técnicos municipais e no enquadramento junto da autarquia.
                 </div>
               </div>
 
@@ -245,7 +239,7 @@ export default function CalculatorSection() {
                   Sem compromisso, resposta rápida.
                 </span>
                 <button
-                  onClick={scrollToForm}
+                  onClick={() => openLeadModal('Simulação de Moradia Familiar · Troviscal')}
                   className="w-full py-3 px-4 rounded-xl text-xs font-bold uppercase tracking-wider gold-btn shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <span>Verificar disponibilidade</span>

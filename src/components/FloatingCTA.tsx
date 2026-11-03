@@ -2,11 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useLeadModal } from '@/components/LeadModal';
 
 /**
- * Barra fixa no fundo, visível depois de passar o hero, com uma única CTA.
+ * Barra fixa no fundo, visível depois de passar o hero, com uma única CTA que abre o modal rápido.
  */
 export default function FloatingCTA() {
+  const { openLeadModal } = useLeadModal();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -25,10 +27,6 @@ export default function FloatingCTA() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToForm = () => {
-    document.getElementById('formulario')?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   if (!isVisible) return null;
 
   return (
@@ -43,8 +41,8 @@ export default function FloatingCTA() {
         </span>
         <button
           type="button"
-          onClick={scrollToForm}
-          className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-extrabold uppercase tracking-wider gold-btn cursor-pointer whitespace-nowrap"
+          onClick={() => openLeadModal('Verificar disponibilidade · Terreno Troviscal')}
+          className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs sm:text-sm font-extrabold uppercase tracking-wider gold-btn cursor-pointer whitespace-nowrap shadow-xl"
         >
           <span>Verificar disponibilidade</span>
           <ArrowRight className="h-4 w-4" aria-hidden="true" />

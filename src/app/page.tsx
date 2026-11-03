@@ -3,6 +3,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import HeroSection from '@/components/HeroSection';
+import MoradiaExterior360 from '@/components/MoradiaExterior360';
 import DualAudienceSection from '@/components/DualAudienceSection';
 import BenefitsSection from '@/components/BenefitsSection';
 import ImageLibrarySection from '@/components/ImageLibrarySection';
@@ -12,42 +13,48 @@ import ObjectionsSection from '@/components/ObjectionsSection';
 import LeadForm from '@/components/LeadForm';
 import FloatingCTA from '@/components/FloatingCTA';
 import Footer from '@/components/Footer';
+import { LeadModalProvider } from '@/components/LeadModal';
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col bg-[#0d382c] text-[#f8fafc]">
-      {/* 1. Header Minimalista Direto */}
-      <Navbar />
+    <LeadModalProvider>
+      <main className="min-h-screen flex flex-col bg-[#0d382c] text-[#f8fafc]">
+        {/* 1. Header Minimalista Direto */}
+        <Navbar />
 
-      {/* 2. Hero */}
-      <HeroSection />
+        {/* 2. Hero — Focado na Família, Terreno Plano e 50.000€ */}
+        <HeroSection />
 
-      {/* 3. Oportunidade Dual (Família vs Investidor) */}
-      <DualAudienceSection />
+        {/* 3. Modelo 360° da Moradia de Sonho ("Assim pode ficar a sua casa aqui") */}
+        <MoradiaExterior360 />
 
-      {/* 4. Vantagens Construtivas & Fiscais (IVA a 6%) */}
-      <BenefitsSection />
+        {/* 4. Oportunidade Familiar Prioritária (e Investidor Secundário) */}
+        <DualAudienceSection />
 
-      {/* 5. Livraria Central de Imagens */}
-      <ImageLibrarySection />
+        {/* 5. Vantagens Construtivas & Fiscais (IVA a 6%) */}
+        <BenefitsSection />
 
-      {/* 6. Localização & Distâncias aos Pontos Principais */}
-      <LocationSection />
+        {/* 6. Livraria Central de Imagens */}
+        <ImageLibrarySection />
 
-      {/* 7. Simulador com Valores Baixos Otimizados */}
-      <CalculatorSection />
+        {/* 7. Localização & Distâncias aos Pontos Principais */}
+        <LocationSection />
 
-      {/* 8. Objeções & Prazos Camarários (3 a 6 meses) */}
-      <ObjectionsSection />
+        {/* 8. Simulador com Valores Baixos Otimizados */}
+        <CalculatorSection />
 
-      {/* 9. Formulário Direto "Saber mais sobre o projeto" */}
-      <LeadForm />
+        {/* 9. Perguntas Frequentes & Apoio PIP Camarário */}
+        <ObjectionsSection />
 
-      {/* 10. Pílula Flutuante Otimizada */}
-      <FloatingCTA />
+        {/* 10. Formulário Direto na Página */}
+        <LeadForm />
 
-      {/* 11. Rodapé */}
-      <Footer />
-    </main>
+        {/* 11. Pílula Flutuante com Abertura Rápida de Modal */}
+        <FloatingCTA />
+
+        {/* 12. Rodapé com Nota Legal Consolidada */}
+        <Footer />
+      </main>
+    </LeadModalProvider>
   );
 }

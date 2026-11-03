@@ -2,11 +2,14 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { Percent, ArrowRight } from 'lucide-react';
+import { Percent, ArrowRight, Sparkles } from 'lucide-react';
+import { useLeadModal } from '@/components/LeadModal';
 
 export default function HeroSection() {
-  const scrollToForm = () => {
-    const el = document.getElementById('formulario');
+  const { openLeadModal } = useLeadModal();
+
+  const scrollTo360 = () => {
+    const el = document.getElementById('moradia-360');
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
@@ -45,41 +48,43 @@ export default function HeroSection() {
           </span>
         </div>
 
-        {/* Headline Principal */}
+        {/* Headline Focada na Família e Casa dos Sonhos */}
         <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-          1.474,50 m² com 38 Metros de Frente por 50.000 €
+          Construa a Sua Moradia Térrea c/ Jardim e Piscina
         </h1>
         
         <div className="mt-3.5 flex flex-wrap items-center justify-center gap-y-1.5 gap-x-3 text-xs sm:text-sm font-bold text-[#a7f3d0] drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]">
-          <span>2 min do centro de Oliveira do Bairro</span>
+          <span>1.474,50 m² planos</span>
           <span className="text-[#dfb15b]">•</span>
-          <span>Infraestruturas junto ao terreno</span>
+          <span>38 m de frente</span>
           <span className="text-[#dfb15b]">•</span>
-          <span>Venda Direta</span>
+          <span>2 min de Oliveira do Bairro</span>
+          <span className="text-[#dfb15b]">•</span>
+          <span>50.000 €</span>
         </div>
 
         <p className="mt-2.5 text-xs sm:text-sm text-slate-100 max-w-2xl mx-auto font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-          Terreno plano no Troviscal, Oliveira do Bairro. Estimativa de implantação de ~900 m² (a confirmar junto à Câmara). 50.000 € para moradia familiar ou projeto de várias moradias, sujeito a validação urbanística no PDM.
+          Terreno amplo, 100% plano e com infraestruturas completas à porta. Ajudamos a pedir a informação prévia (PIP) à Câmara Municipal para construir a sua casa com total tranquilidade.
         </p>
 
-        {/* 4 Cartões Pré-Scroll em Branco Puro com Alto Contraste */}
+        {/* 4 Cartões de Valor em Branco Puro com Alto Contraste */}
         <div className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 max-w-4xl mx-auto">
           <div className="p-3.5 sm:p-4 rounded-2xl bg-white text-[#0d382c] border border-white text-center shadow-2xl transform hover:-translate-y-0.5 transition-transform duration-200">
             <div className="text-[10px] uppercase tracking-wider text-[#0f4c3a] font-bold">Área Total</div>
             <div className="text-lg sm:text-2xl font-black text-[#0d382c] mt-0.5">1.474,50 m²</div>
-            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Implantação est. ~900 m²*</span>
+            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Espaço p/ Jardim & Piscina</span>
           </div>
 
           <div className="p-3.5 sm:p-4 rounded-2xl bg-white text-[#0d382c] border border-white text-center shadow-2xl transform hover:-translate-y-0.5 transition-transform duration-200">
             <div className="text-[10px] uppercase tracking-wider text-[#0f4c3a] font-bold">Frente Urbana</div>
             <div className="text-lg sm:text-2xl font-black text-[#0d382c] mt-0.5">38 Metros</div>
-            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Acesso direto à estrada</span>
+            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Entrada ampla e portão duplo</span>
           </div>
 
           <div className="p-3.5 sm:p-4 rounded-2xl bg-white text-[#0d382c] border border-white text-center shadow-2xl transform hover:-translate-y-0.5 transition-transform duration-200">
             <div className="text-[10px] uppercase tracking-wider text-[#0f4c3a] font-bold">Topografia</div>
-            <div className="text-lg sm:text-2xl font-black text-[#0d382c] mt-0.5">Plano</div>
-            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Sem desníveis acentuados</span>
+            <div className="text-lg sm:text-2xl font-black text-[#0d382c] mt-0.5">100% Plano</div>
+            <span className="text-[10px] text-emerald-700 font-semibold block mt-0.5">Construção económica sem aterros</span>
           </div>
 
           <div className="p-3.5 sm:p-4 rounded-2xl bg-white text-[#0d382c] border-2 border-[#dfb15b] text-center shadow-2xl transform hover:-translate-y-0.5 transition-transform duration-200 ring-2 ring-[#dfb15b]/40">
@@ -90,28 +95,34 @@ export default function HeroSection() {
               50.000 €
             </div>
             <span className="text-[11px] text-[#0f4c3a] font-black uppercase tracking-wider block mt-0.5">
-              Negociável
+              Negociável · Direto
             </span>
           </div>
         </div>
 
-        <p className="mt-3 text-[11px] text-emerald-100/90 font-medium drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
-          * A estimativa efetuada para a área de implantação é de 900 m², tendo que ser confirmada junto à Câmara Municipal.
-        </p>
-
-        {/* CTA Única */}
-        <div className="mt-8 flex flex-col items-center justify-center gap-2">
+        {/* CTA do Hero com Abertura Rápida de Modal */}
+        <div className="mt-8 flex flex-col items-center justify-center gap-2.5">
           <span className="text-[11px] sm:text-xs text-emerald-100 font-semibold tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
             Sem compromisso, resposta rápida.
           </span>
-          <button
-            type="button"
-            onClick={scrollToForm}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-9 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn shadow-2xl transition-all duration-200 cursor-pointer hover:scale-105"
-          >
-            <span>Verificar disponibilidade</span>
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </button>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => openLeadModal('Verificar disponibilidade · Terreno Troviscal')}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-9 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn shadow-2xl transition-all duration-200 cursor-pointer hover:scale-105"
+            >
+              <span>Verificar disponibilidade</span>
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={scrollTo360}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-bold text-white bg-white/10 hover:bg-white/20 border border-white/25 backdrop-blur-md transition-all cursor-pointer"
+            >
+              <Sparkles className="h-3.5 w-3.5 text-[#dfb15b]" />
+              <span>Ver Moradia Modelo 360° ↓</span>
+            </button>
+          </div>
         </div>
 
       </div>

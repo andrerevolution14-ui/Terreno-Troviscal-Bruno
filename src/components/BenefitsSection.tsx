@@ -1,15 +1,11 @@
 'use client';
 
 import React from 'react';
-import { Ruler, Maximize2, Layers, Building2, Navigation, Coins, Percent, ArrowRight } from 'lucide-react';
+import { Ruler, Maximize2, Layers, Building2, Navigation, Percent, ArrowRight } from 'lucide-react';
+import { useLeadModal } from '@/components/LeadModal';
 
 export default function BenefitsSection() {
-  const scrollToForm = () => {
-    const el = document.getElementById('formulario');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const { openLeadModal } = useLeadModal();
 
   const benefits = [
     {
@@ -27,8 +23,8 @@ export default function BenefitsSection() {
     {
       icon: Maximize2,
       tag: "1.474,50 m²",
-      title: "Área Ampla & Implantação",
-      desc: "Espaço com estimativa de ~900 m² de implantação (a confirmar junto à Câmara), ideal para moradia ampla ou loteamento."
+      title: "Área Ampla & Conforto",
+      desc: "Espaço generoso para implantação de moradia ampla térrea com piscina, anexos e jardim privativo."
     },
     {
       icon: Layers,
@@ -103,7 +99,7 @@ export default function BenefitsSection() {
             Sem compromisso, resposta rápida.
           </span>
           <button
-            onClick={scrollToForm}
+            onClick={() => openLeadModal('Verificar disponibilidade · Terreno Troviscal')}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider gold-btn shadow-md transition-all cursor-pointer"
           >
             <span>Verificar disponibilidade</span>

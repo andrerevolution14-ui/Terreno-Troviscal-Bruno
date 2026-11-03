@@ -66,16 +66,21 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validação estrita: exatamente 9 ou 12 dígitos
+    // Validação flexível: nacional (9 dígitos começado por 9 ou 2) ou internacional (9 a 15 dígitos)
     let digits = telefone.replace(/\D/g, '');
     if (digits.startsWith('00351')) {
-      digits = digits.slice(2);
+      digits = digits.slice(5);
+    } else if (digits.startsWith('351') && digits.length > 9) {
+      digits = digits.slice(3);
     }
 
-    if (digits.length !== 9 && digits.length !== 12) {
+    const isPtValid = digits.length === 9 && /^[29]\d{8}$/.test(digits);
+    const isIntlValid = digits.length >= 9 && digits.length <= 15;
+
+    if (!isPtValid && !isIntlValid) {
       return NextResponse.json(
         { 
-          error: `O número inserido tem ${digits.length} dígitos. O contacto telefónico tem de ter obrigatoriamente 9 dígitos (ex: 912 345 678) ou 12 dígitos com indicativo (ex: +351 912 345 678).` 
+          error: `Por favor, insira um contacto telefónico válido (9 dígitos nacional ou indicativo internacional).` 
         },
         { status: 400 }
       );
